@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,7 +55,8 @@ fun TopLine(
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_filter),
-                        contentDescription = "Filters"
+                        contentDescription = "Filters",
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             },
@@ -64,17 +66,19 @@ fun TopLine(
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_search),
-                        contentDescription = "Search dish"
+                        contentDescription = "Search dish",
+                        modifier = Modifier.size(24.dp)
                     )
                 }
-            }
+            },
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.White)
         )
 
         LazyRow(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .background(Color.White)
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
             items(tags) { tag ->
                 Text(
