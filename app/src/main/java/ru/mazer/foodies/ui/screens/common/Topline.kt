@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -32,6 +33,7 @@ import ru.mazer.foodies.domain.models.Tag
 @Composable
 fun TopLine(
     tags: List<Tag>,
+    isScrolled: Boolean,
     onFilterClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onTagClick: () -> Unit = {}
@@ -39,7 +41,9 @@ fun TopLine(
 
     val selectedId = remember { mutableStateOf(1) }
 
-    Column {
+    Column(
+        modifier = Modifier.shadow(if (isScrolled) 8.dp else 0.dp)
+    ) {
         CenterAlignedTopAppBar(
             title = {
                 Image(

@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import ru.mazer.foodies.R
 import ru.mazer.foodies.domain.models.Dish
 import ru.mazer.foodies.ui.theme.FoodiesTheme
+import ru.mazer.foodies.ui.theme.Typography
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,6 +123,7 @@ fun DishCard(
                     Text(
                         text = inCartCount.toString(),
                         textAlign = TextAlign.Center,
+                        style = Typography.titleSmall,
                         modifier = Modifier.weight(1.8f)
                     )
 
@@ -162,11 +164,15 @@ fun DishCard(
                         defaultElevation = 2.dp
                     )
                 ) {
-                    Text(text = "${dish.price_current / 100} \u20BD")
+                    Text(
+                        text = "${dish.price_current / 100} \u20BD",
+                        style = Typography.titleSmall
+                    )
                     if (dish.price_old != null)
                         Text(
                             text = "${dish.price_old / 100} \u20BD",
                             textDecoration = TextDecoration.LineThrough,
+                            style = Typography.titleSmall,
                             modifier = Modifier.alpha(.6f)
                         )
                 }
