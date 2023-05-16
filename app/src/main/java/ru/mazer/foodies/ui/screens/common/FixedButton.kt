@@ -15,11 +15,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun FixedButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     content: @Composable () -> Unit
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .shadow(
                 elevation = 24.dp,
