@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import ru.mazer.foodies.ui.screens.catalog.components.CartRow
+import ru.mazer.foodies.ui.screens.cart.components.CartRow
 import ru.mazer.foodies.ui.screens.common.FixedButton
 import ru.mazer.foodies.ui.theme.FoodiesTheme
 import ru.mazer.foodies.ui.theme.Typography

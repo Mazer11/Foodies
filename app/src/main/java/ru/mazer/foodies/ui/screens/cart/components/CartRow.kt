@@ -1,4 +1,4 @@
-package ru.mazer.foodies.ui.screens.catalog.components
+package ru.mazer.foodies.ui.screens.cart.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
