@@ -29,13 +29,13 @@ fun FoodiesNavGraph(
         navigation(
             startDestination = NavRoutes.Splash.route,
             route = "main_graph"
-        ){
+        ) {
             composable(route = NavRoutes.Splash.route) {
                 SplashScreen(navController = navHostController)
             }
             composable(route = NavRoutes.Catalog.route) { backStackEntry ->
                 val view = LocalView.current
-                val parentEntry = remember(backStackEntry){
+                val parentEntry = remember(backStackEntry) {
                     navHostController.getBackStackEntry("main_graph")
                 }
                 val viewModel = hiltViewModel<MainViewModel>(parentEntry)
@@ -44,18 +44,25 @@ fun FoodiesNavGraph(
                     window.statusBarColor = Color.White.toArgb()
                 }
                 CatalogScreen(
-                    navHostController,
+                    navController = navHostController,
                     vm = viewModel
                 )
             }
             composable(route = NavRoutes.Cart.route) { backStackEntry ->
-                CartScreen()
+                val parentEntry = remember(backStackEntry) {
+                    navHostController.getBackStackEntry("main_graph")
+                }
+                val viewModel = hiltViewModel<MainViewModel>(parentEntry)
+                CartScreen(
+                    navController = navHostController,
+                    vm = viewModel
+                )
             }
             composable(
                 route = NavRoutes.Dish.route + "/{id}",
                 arguments = listOf(navArgument("id") {})
             ) { backStackEntry ->
-                val parentEntry = remember(backStackEntry){
+                val parentEntry = remember(backStackEntry) {
                     navHostController.getBackStackEntry("main_graph")
                 }
                 val viewModel = hiltViewModel<MainViewModel>(parentEntry)
@@ -66,7 +73,14 @@ fun FoodiesNavGraph(
                 )
             }
             composable(route = NavRoutes.Search.route) { backStackEntry ->
-                SearchScreen()
+                val parentEntry = remember(backStackEntry) {
+                    navHostController.getBackStackEntry("main_graph")
+                }
+                val viewModel = hiltViewModel<MainViewModel>(parentEntry)
+                SearchScreen(
+                    navController = navHostController,
+                    vm = viewModel
+                )
             }
         }
     }
