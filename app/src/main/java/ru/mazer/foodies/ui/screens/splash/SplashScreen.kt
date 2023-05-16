@@ -28,6 +28,7 @@ fun SplashScreen(navController: NavController) {
         LottieAnimation(
             composition = composition,
             modifier = Modifier.fillMaxWidth(),
+            enableMergePaths = true,
             progress = { progress }
         )
     }

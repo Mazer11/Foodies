@@ -19,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +49,13 @@ fun DishScreen(
     if (dish != null)
         Scaffold(
             bottomBar = {
-                FixedButton(onClick = { vm.addToCart(dish) }) {
+                FixedButton(
+                    onClick = { vm.addToCart(dish) },
+                    modifier = Modifier.shadow(
+                        elevation = 24.dp,
+                        shape = RectangleShape
+                    )
+                ) {
                     Text(text = "В корзину за ${dish.price_current.div(100)} \u20BD")
                 }
             },

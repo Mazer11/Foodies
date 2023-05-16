@@ -22,6 +22,21 @@ class MainViewModel @Inject constructor() : ViewModel() {
     }
     val cartList: LiveData<List<CartItem>> = _cartList
 
+    private val _veganOnly: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>(false)
+    }
+    val veganOnly: LiveData<Boolean> = _veganOnly
+
+    private val _hotOnly: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>(false)
+    }
+    val hotOnly: LiveData<Boolean> = _hotOnly
+
+    private val _discountOnly: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>(false)
+    }
+    val discountOnly: LiveData<Boolean> = _discountOnly
+
     init {
         Log.e("MainViewModel", "INITIALISATION")
         _dishList.value = listOf(
@@ -97,6 +112,18 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 return
             }
         }
+    }
+
+    fun checkVegan(value: Boolean){
+        _veganOnly.value = value
+    }
+
+    fun checkHot(value: Boolean){
+        _hotOnly.value = value
+    }
+
+    fun checkDiscount(value: Boolean){
+        _discountOnly.value = value
     }
 
 }

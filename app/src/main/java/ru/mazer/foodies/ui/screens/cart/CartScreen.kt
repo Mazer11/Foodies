@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -78,7 +79,11 @@ fun CartScreen(
         bottomBar = {
             if (isCartEmpty.value)
                 FixedButton(
-                    onClick = {}
+                    onClick = {},
+                    modifier = Modifier.shadow(
+                        elevation = 24.dp,
+                        shape = RectangleShape
+                    )
                 ) {
                     Text(
                         text = "Заказать за ${currentPrice / 100} \u20BD",
