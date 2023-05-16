@@ -23,6 +23,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
     val cartList: LiveData<List<CartItem>> = _cartList
 
     init {
+        Log.e("MainViewModel", "INITIALISATION")
         _dishList.value = listOf(
             Dish(
                 id = 9,

@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -34,7 +33,6 @@ import ru.mazer.foodies.ui.theme.FoodiesTheme
 import ru.mazer.foodies.ui.theme.Typography
 import ru.mazer.foodies.viewmodels.MainViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DishScreen(
     navController: NavController,
@@ -49,7 +47,7 @@ fun DishScreen(
     if (dish != null)
         Scaffold(
             bottomBar = {
-                FixedButton(onClick = {}) {
+                FixedButton(onClick = { vm.addToCart(dish) }) {
                     Text(text = "В корзину за ${dish.price_current.div(100)} \u20BD")
                 }
             },
@@ -81,7 +79,9 @@ fun DishScreen(
                             Text(
                                 text = dish.description,
                                 style = Typography.bodyMedium,
-                                modifier = Modifier.alpha(.6f).padding(top = 8.dp)
+                                modifier = Modifier
+                                    .alpha(.6f)
+                                    .padding(top = 8.dp)
                             )
                         }
                     }
