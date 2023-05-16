@@ -76,7 +76,7 @@ fun DishScreen(
                         ) {
                             Text(
                                 text = dish.name,
-                                style = Typography.displaySmall
+                                style = Typography.headlineMedium
                             )
                             Text(
                                 text = dish.description,

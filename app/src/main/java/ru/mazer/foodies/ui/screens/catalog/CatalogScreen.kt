@@ -1,5 +1,6 @@
 package ru.mazer.foodies.ui.screens.catalog
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -30,7 +31,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import ru.mazer.foodies.R
-import ru.mazer.foodies.domain.models.Dish
 import ru.mazer.foodies.ui.screens.common.TopLine
 import ru.mazer.foodies.domain.models.Tag
 import ru.mazer.foodies.ui.navigation.NavRoutes
@@ -48,7 +48,7 @@ fun CatalogScreen(
 ) {
 
     val columnsCount = 2
-    val testCart = hashMapOf<Dish, Int>()
+    val cart = vm.cartList.observeAsState()
     val bottomSheetState =
         rememberStandardBottomSheetState(initialValue = SheetValue.Hidden, skipHiddenState = false)
     val bottomSheetScaffoldState =
@@ -56,8 +56,12 @@ fun CatalogScreen(
     val lazyGridScrollState = rememberLazyGridState()
     val isScrolled =
         remember { derivedStateOf { lazyGridScrollState.firstVisibleItemScrollOffset > 0 } }
-    val testDishes = vm.dishList.observeAsState()
+    val dishes = vm.dishList.observeAsState()
     val coroutineScope = rememberCoroutineScope()
+    val isCartNotEmpty = remember { derivedStateOf { cart.value != null && cart.value!!.isNotEmpty() } }
+
+    Log.e("CatalogScreen", "Cart size = ${cart.value?.size}")
+    Log.e("CatalogScreen", "isCartNotEmpty = ${isCartNotEmpty.value}")
 
     BottomSheetScaffold(
         topBar = {
@@ -98,27 +102,34 @@ fun CatalogScreen(
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .padding(bottom = if (testCart.isNotEmpty()) 70.dp else 0.dp)
+                    .padding(bottom = if (isCartNotEmpty.value) 0.dp else 70.dp)
             ) {
-                if (!testDishes.value.isNullOrEmpty())
-                    items(testDishes.value!!) { dish ->
+                if (!dishes.value.isNullOrEmpty())
+                    items(dishes.value!!) { dish ->
                         DishCard(
                             dish = dish,
-                            inCartCount = if (dish.id == 14) 2 else 0,
+                            inCartCount = cart.value?.firstOrNull { it.id == dish.id }?.count ?: 0,
                             modifier = Modifier.padding(8.dp),
                             onCardClick = {
                                 navController.navigate(route = "${NavRoutes.Dish.route}/${dish.id}")
+                            },
+                            onAdd = { thisDish ->
+                                vm.addToCart(thisDish)
+                            },
+                            onRemove = { thisDish ->
+                                vm.removeFromCart(thisDish)
                             }
                         )
                     }
             }
-            if (testCart.isNotEmpty()) {
+            if (isCartNotEmpty.value) {
                 var currentPrice = 0
-                testCart.forEach { entry: Map.Entry<Dish, Int> ->
-                    currentPrice += entry.key.price_current * entry.value
+                cart.value!!.forEach { cartItem ->
+                    currentPrice +=
+                        dishes.value!!.first { it.id == cartItem.id }.price_current * cartItem.count
                 }
                 FixedButton(
-                    onClick = {},
+                    onClick = { navController.navigate(NavRoutes.Cart.route) },
                     modifier = Modifier.align(Alignment.BottomCenter)
                 ) {
                     Icon(

@@ -88,7 +88,7 @@ fun TopLine(
                 Text(
                     text = tag.name,
                     color = if (tag.id == selectedId.value) Color.White else Color.Black,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .clickable {
