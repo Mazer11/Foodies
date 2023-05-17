@@ -1,8 +1,12 @@
 package ru.mazer.foodies.domain.models
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class Category(
     //уникальный идентификатор категории
-    val id: Int,
+    @Json(name = "id") val id: Int,
     //название категории
-    val name: String
+    @Json(name = "name") val name: String
 )

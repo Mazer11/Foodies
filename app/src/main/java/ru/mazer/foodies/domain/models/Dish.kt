@@ -1,32 +1,36 @@
 package ru.mazer.foodies.domain.models
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class Dish(
     //уникальный идентификатор товара
-    val id: Int,
+    @Json(name = "id") val id: Int,
     //Название товара
-    val name: String,
+    @Json(name = "name") val name: String,
     //Описание/состав товара
-    val description: String,
+    @Json(name = "description") val description: String,
     //Изображение товара
-    val image: String,
+    @Json(name = "image") val image: String,
     //текущая цена в копейках
-    val price_current: Int,
+    @Json(name = "price_current") val price_current: Int,
     //старая цена в копейках
-    val price_old: Int?,
+    @Json(name = "price_old") val price_old: Int?,
     //идентификатор категории товара
-    val category_id: Int,
+    @Json(name = "category_id") val category_id: Int,
     //количество в единицах измерения ниже
-    val measure: Int,
+    @Json(name = "measure") val measure: Int,
     //единица измерения
-    val measure_unit: String,
+    @Json(name = "measure_unit") val measure_unit: String,
     //количество калорий на 100 г продукта
-    val energy_per_100_grams: Double,
+    @Json(name = "energy_per_100_grams") val energy_per_100_grams: Double,
     //количество белков на 100 г продукта
-    val proteins_per_100_grams: Double,
+    @Json(name = "proteins_per_100_grams") val proteins_per_100_grams: Double,
     //количество жиров на 100 г продукта
-    val fats_per_100_grams: Double,
+    @Json(name = "fats_per_100_grams") val fats_per_100_grams: Double,
     //количество углеводов на 100 г продукта
-    val carbohydrates_per_100_grams: Double,
+    @Json(name = "carbohydrates_per_100_grams") val carbohydrates_per_100_grams: Double,
     //массив атрибутов товара для фильтрации
-    val tag_ids: List<Int>,
+    @Json(name = "tag_ids") val tag_ids: List<Int>,
 )
