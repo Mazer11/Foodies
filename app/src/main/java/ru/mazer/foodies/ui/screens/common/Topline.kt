@@ -39,7 +39,7 @@ fun TopLine(
     badgeValue: Int,
     onFilterClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
-    onTagClick: () -> Unit = {}
+    onCategoryClick: () -> Unit = {}
 ) {
 
     val selectedId = remember { mutableStateOf(1) }
@@ -110,7 +110,7 @@ fun TopLine(
                         .padding(horizontal = 4.dp)
                         .clickable {
                             selectedId.value = tag.id
-                            onTagClick()
+                            onCategoryClick()
                         }
                         .background(
                             color = if (tag.id == selectedId.value)

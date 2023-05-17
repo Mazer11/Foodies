@@ -1,6 +1,5 @@
 package ru.mazer.foodies.ui.screens.catalog
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -73,12 +72,9 @@ fun CatalogScreen(
     val coroutineScope = rememberCoroutineScope()
     val isCartNotEmpty =
         remember { derivedStateOf { cart.value != null && cart.value!!.isNotEmpty() } }
-    val tags = vm.tagsList.observeAsState()
+    val tags = vm.filtersList.observeAsState()
     val checkedTags = vm.checkedTagsList.observeAsState()
-    val discoutnTag = vm.discountOnly.observeAsState()
-
-    Log.e("CatalogScreen", "Cart size = ${cart.value?.size}")
-    Log.e("CatalogScreen", "isCartNotEmpty = ${isCartNotEmpty.value}")
+    val discountTag = vm.discountOnly.observeAsState()
 
     BottomSheetScaffold(
         topBar = {
@@ -94,16 +90,14 @@ fun CatalogScreen(
                     coroutineScope.launch {
                         if (!bottomSheetState.isVisible)
                             bottomSheetState.expand()
-                        else
-                            bottomSheetState.hide()
                     }
                 },
                 onSearchClick = {
                     navController.navigate(NavRoutes.Search.route)
                 },
-                onTagClick = {},
+                onCategoryClick = {},
                 badgeValue = if (checkedTags.value != null) {
-                    if (discoutnTag.value == true)
+                    if (discountTag.value == true)
                         checkedTags.value!!.size + 1
                     else
                         checkedTags.value!!.size
@@ -130,7 +124,12 @@ fun CatalogScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(1f, fill = true)
-                        .clickable { coroutineScope.launch { bottomSheetState.hide() } }
+                        .clickable {
+                            coroutineScope.launch {
+                                vm.onFiltersChanged()
+                                bottomSheetState.hide()
+                            }
+                        }
                 )
                 Column(
                     modifier = Modifier
@@ -175,14 +174,19 @@ fun CatalogScreen(
                         item {
                             FilterRow(
                                 title = "Со скидкой",
-                                checked = if (discoutnTag.value != null) discoutnTag.value!! else false,
+                                checked = if (discountTag.value != null) discountTag.value!! else false,
                                 onCheckedChange = { vm.checkDiscountTag(it) },
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
                     }
                     FixedButton(
-                        onClick = { coroutineScope.launch { bottomSheetState.hide() } }
+                        onClick = {
+                            coroutineScope.launch {
+                                vm.onFiltersChanged()
+                                bottomSheetState.hide()
+                            }
+                        }
                     ) {
                         Text(text = "Готово")
                     }
@@ -198,7 +202,7 @@ fun CatalogScreen(
                     modifier = Modifier
                         .padding(paddingValues)
                         .fillMaxSize()
-                        .padding(bottom = if (isCartNotEmpty.value) 0.dp else 70.dp)
+                        .padding(bottom = if (isCartNotEmpty.value) 70.dp else 0.dp)
                 ) {
                     items(dishes.value!!) { dish ->
                         DishCard(

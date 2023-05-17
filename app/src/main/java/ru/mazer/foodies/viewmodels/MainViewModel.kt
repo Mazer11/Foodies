@@ -18,6 +18,11 @@ class MainViewModel @Inject constructor() : ViewModel() {
     }
     val dishList: LiveData<List<Dish>> = _dishList
 
+    private val _searchList: MutableLiveData<List<Dish>> by lazy {
+        MutableLiveData<List<Dish>>(listOf())
+    }
+    val searchList: LiveData<List<Dish>> = _searchList
+
     private val _filteredDishList: MutableLiveData<List<Dish>> by lazy {
         MutableLiveData<List<Dish>>(listOf())
     }
@@ -28,10 +33,10 @@ class MainViewModel @Inject constructor() : ViewModel() {
     }
     val cartList: LiveData<List<CartItem>> = _cartList
 
-    private val _tagsList: MutableLiveData<List<Tag>> by lazy {
+    private val _filtersList: MutableLiveData<List<Tag>> by lazy {
         MutableLiveData<List<Tag>>(listOf())
     }
-    val tagsList: LiveData<List<Tag>> = _tagsList
+    val filtersList: LiveData<List<Tag>> = _filtersList
 
     private val _checkedTagsList: MutableLiveData<List<Int>> by lazy {
         MutableLiveData<List<Int>>(listOf())
@@ -43,8 +48,13 @@ class MainViewModel @Inject constructor() : ViewModel() {
     }
     val discountOnly: LiveData<Boolean> = _discountOnly
 
+    private val _searchText: MutableLiveData<String> by lazy {
+        MutableLiveData<String>("")
+    }
+    val searchText: LiveData<String> = _searchText
+
     init {
-        _tagsList.value = listOf(
+        _filtersList.value = listOf(
             Tag(
                 id = 1,
                 name = "Новинка"
@@ -82,7 +92,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 proteins_per_100_grams = 6.1,
                 fats_per_100_grams = 3.7,
                 carbohydrates_per_100_grams = 61.1,
-                tag_ids = listOf()
+                tag_ids = listOf(5)
             ),
             Dish(
                 id = 21,
@@ -91,7 +101,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 description = "Острые суши с осьминогом  Комплектуется бесплатным набором для роллов (Соевый соус Лайт 35г., васаби 6г., имбирь 15г.). +1 набор за каждые 600 рублей в заказе",
                 image = "1.jpg",
                 price_current = 16000,
-                price_old = null,
+                price_old = 20000,
                 measure = 30,
                 measure_unit = "г",
                 energy_per_100_grams = 265.2,
@@ -99,6 +109,54 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 fats_per_100_grams = 7.4,
                 carbohydrates_per_100_grams = 38.6,
                 tag_ids = listOf(4)
+            ),
+            Dish(
+                id = 12,
+                category_id = 676168,
+                name = "Филадельфия Кунжут 8шт",
+                description = "Урамаки ролл в семенах кунжута с нежным лососем, сливочным сыром, огурцом и авокадо  Комплектуется бесплатным набором для роллов (Соевый соус Лайт 35г., васаби 6г., имбирь 15г.). +1 набор за каждые 600 рублей в заказе",
+                image = "1.jpg",
+                price_current = 46000,
+                price_old = null,
+                measure = 225,
+                measure_unit = "г",
+                energy_per_100_grams = 297.7,
+                proteins_per_100_grams = 8.6,
+                fats_per_100_grams = 8.4,
+                carbohydrates_per_100_grams = 46.9,
+                tag_ids = listOf(3)
+            ),
+            Dish(
+                id = 27377,
+                category_id = 676153,
+                name = "Тофу с овощами",
+                description = "Кубики обжаренного тофу с гарниром из капусты пак-чой, стрелок фасоли, помидоров черри и сладкого перца под устричным соусом.",
+                image = "1.jpg",
+                price_current = 33000,
+                price_old = null,
+                measure = 250,
+                measure_unit = "г",
+                energy_per_100_grams = 146.3,
+                proteins_per_100_grams = 3.5,
+                fats_per_100_grams = 11.1,
+                carbohydrates_per_100_grams = 8.8,
+                tag_ids = listOf(2)
+            ),
+            Dish(
+                id = 27842,
+                category_id = 676153,
+                name = " Баклажаны с грибами шиитаке",
+                description = " Баклажаны с грибами шиитаке, обжаренные в соусе унаги ",
+                image = "1.jpg",
+                price_current = 31000,
+                price_old = null,
+                measure = 150,
+                measure_unit = " г ",
+                energy_per_100_grams = 263.7,
+                proteins_per_100_grams = 4.9,
+                fats_per_100_grams = 21.6,
+                carbohydrates_per_100_grams = 11.2,
+                tag_ids = listOf(2, 3)
             )
         )
         _filteredDishList.value = _dishList.value
@@ -161,6 +219,39 @@ class MainViewModel @Inject constructor() : ViewModel() {
         newValue: Boolean
     ) {
         _discountOnly.value = newValue
+    }
+
+    fun onSearchTextChanged(newText: String) {
+        _searchText.value = newText
+        if (newText.isEmpty()) {
+            _searchList.value = listOf()
+            return
+        }
+        val dishesFromSearch = _dishList.value!!.filter {
+            it.name.contains(newText, true) ||
+                    it.description.contains(newText, true)
+        }
+        _searchList.value = dishesFromSearch
+    }
+
+    fun onFiltersChanged() {
+        if (_checkedTagsList.value.isNullOrEmpty()) {
+            if (_discountOnly.value == true)
+                _filteredDishList.value = _dishList.value!!.filter { it.price_old != null }
+            else
+                _filteredDishList.value = _dishList.value
+            return
+        }
+        val filteredDish = _dishList.value!!.filter {
+            it.tag_ids.isNotEmpty()
+        }.filter {
+            it.tag_ids.containsAll(_checkedTagsList.value!!)
+        }
+
+        if (_discountOnly.value == true)
+            _filteredDishList.value = filteredDish.filter { it.price_old != null }
+        else
+            _filteredDishList.value = filteredDish
     }
 
 }
