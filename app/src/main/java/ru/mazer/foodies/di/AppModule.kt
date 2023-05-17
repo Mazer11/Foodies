@@ -11,7 +11,10 @@ import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import ru.mazer.foodies.domain.remote.RemoteApi
+import ru.mazer.foodies.domain.remote.RemoteRepository
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -46,5 +49,16 @@ object AppModule {
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
+
+    @Provides
+    @Singleton
+    fun provideCardDataApi(retrofit: Retrofit): RemoteApi =
+        retrofit.create(RemoteApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRetrofitRepository(api: RemoteApi): RemoteRepository {
+        return RemoteRepository(api)
+    }
 
 }
