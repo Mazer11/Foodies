@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -189,16 +190,16 @@ fun CatalogScreen(
             }
         }
     ) { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize()) {
-            LazyVerticalGrid(
-                state = lazyGridScrollState,
-                columns = GridCells.Fixed(count = columnsCount),
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-                    .padding(bottom = if (isCartNotEmpty.value) 0.dp else 70.dp)
-            ) {
-                if (!dishes.value.isNullOrEmpty())
+        if (!dishes.value.isNullOrEmpty() && dishes.value!!.isNotEmpty()) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                LazyVerticalGrid(
+                    state = lazyGridScrollState,
+                    columns = GridCells.Fixed(count = columnsCount),
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                        .padding(bottom = if (isCartNotEmpty.value) 0.dp else 70.dp)
+                ) {
                     items(dishes.value!!) { dish ->
                         DishCard(
                             dish = dish,
@@ -215,33 +216,47 @@ fun CatalogScreen(
                             }
                         )
                     }
-            }
-            if (isCartNotEmpty.value) {
-                var currentPrice = 0
-                cart.value!!.forEach { cartItem ->
-                    currentPrice +=
-                        dishes.value!!.first { it.id == cartItem.id }.price_current * cartItem.count
                 }
-                FixedButton(
-                    onClick = { navController.navigate(NavRoutes.Cart.route) },
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .shadow(
-                            elevation = 24.dp,
-                            shape = RectangleShape
+                if (isCartNotEmpty.value) {
+                    var currentPrice = 0
+                    cart.value!!.forEach { cartItem ->
+                        currentPrice +=
+                            dishes.value!!.first { it.id == cartItem.id }.price_current * cartItem.count
+                    }
+                    FixedButton(
+                        onClick = { navController.navigate(NavRoutes.Cart.route) },
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .shadow(
+                                elevation = 24.dp,
+                                shape = RectangleShape
+                            )
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_cart),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
                         )
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_cart),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                    Text(
-                        text = "${currentPrice / 100} \u20BD",
-                        style = Typography.titleMedium,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
+                        Text(
+                            text = "${currentPrice / 100} \u20BD",
+                            style = Typography.titleMedium,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
                 }
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding()
+            ) {
+                Text(
+                    text = "Таких блюд нет :(\nПопробуйте изменить фильтры",
+                    modifier = Modifier
+                        .alpha(.6f)
+                        .align(Alignment.Center)
+                )
             }
         }
     }

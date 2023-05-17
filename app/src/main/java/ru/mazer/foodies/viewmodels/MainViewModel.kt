@@ -159,7 +159,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     fun checkDiscountTag(
         newValue: Boolean
-    ){
+    ) {
         _discountOnly.value = newValue
     }
 
