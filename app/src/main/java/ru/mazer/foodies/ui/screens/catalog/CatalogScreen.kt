@@ -75,6 +75,7 @@ fun CatalogScreen(
     val checkedTags = vm.checkedTagsList.observeAsState()
     val discountTag = vm.discountOnly.observeAsState()
     val categories = vm.categories.observeAsState(listOf())
+    val currentPrice = vm.currentPrice.observeAsState(0)
 
     BottomSheetScaffold(
         topBar = {
@@ -219,11 +220,6 @@ fun CatalogScreen(
                     }
                 }
                 if (isCartNotEmpty.value) {
-                    var currentPrice = 0
-                    cart.value!!.forEach { cartItem ->
-                        currentPrice +=
-                            dishes.value!!.first { it.id == cartItem.id }.price_current * cartItem.count
-                    }
                     FixedButton(
                         onClick = { navController.navigate(NavRoutes.Cart.route) },
                         modifier = Modifier
@@ -239,7 +235,7 @@ fun CatalogScreen(
                             modifier = Modifier.size(24.dp)
                         )
                         Text(
-                            text = "${currentPrice / 100} \u20BD",
+                            text = "${currentPrice.value / 100} \u20BD",
                             style = Typography.titleMedium,
                             modifier = Modifier.padding(start = 8.dp)
                         )
@@ -258,6 +254,28 @@ fun CatalogScreen(
                         .alpha(.6f)
                         .align(Alignment.Center)
                 )
+                if (isCartNotEmpty.value) {
+                    FixedButton(
+                        onClick = { navController.navigate(NavRoutes.Cart.route) },
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .shadow(
+                                elevation = 24.dp,
+                                shape = RectangleShape
+                            )
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_cart),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
+                        Text(
+                            text = "${currentPrice.value / 100} \u20BD",
+                            style = Typography.titleMedium,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
+                }
             }
         }
     }

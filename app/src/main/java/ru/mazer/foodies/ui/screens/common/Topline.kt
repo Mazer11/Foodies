@@ -77,6 +77,7 @@ fun TopLine(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_filter),
                             contentDescription = "Filters",
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 }
@@ -99,7 +100,7 @@ fun TopLine(
             horizontalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .background(Color.White)
-                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .padding(all = 8.dp)
         ) {
             items(categories) { tag ->
                 Text(

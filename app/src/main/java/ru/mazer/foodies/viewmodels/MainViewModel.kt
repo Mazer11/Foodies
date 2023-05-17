@@ -59,6 +59,11 @@ class MainViewModel @Inject constructor() : ViewModel() {
     }
     val categories: LiveData<List<Category>> = _categories
 
+    private val _currentPrice: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>(0)
+    }
+    val currentPrice: LiveData<Int> = _currentPrice
+
     private val _currentCategory: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>(0)
     }
@@ -213,12 +218,14 @@ class MainViewModel @Inject constructor() : ViewModel() {
             Log.e("MainViewModel", "Old id = ${oldCartItem?.id} count = ${oldCartItem?.count}")
             if (oldCartItem != null) {
                 Log.e("MainViewModel", "Inside not null")
+                _currentPrice.value = _currentPrice.value!! + dish.price_current
                 _cartList.value = buildList {
                     addAll(_cartList.value!!.filter { it != oldCartItem })
                     add(CartItem(id = dish.id, count = oldCartItem.count + 1))
                 }
             } else {
                 Log.e("MainViewModel", "Inside null")
+                _currentPrice.value = _currentPrice.value!! + dish.price_current
                 _cartList.value = buildList {
                     addAll(_cartList.value!!)
                     add(CartItem(dish.id, 1))
@@ -231,6 +238,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
         if (_cartList.value != null) {
             val oldCartItem = _cartList.value!!.firstOrNull { it.id == dish.id }
             if (oldCartItem != null) {
+                _currentPrice.value = _currentPrice.value!! - dish.price_current
                 if (oldCartItem.count > 1)
                     _cartList.value = buildList {
                         addAll(_cartList.value!!.filter { it != oldCartItem })

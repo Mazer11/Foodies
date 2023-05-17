@@ -34,7 +34,7 @@ fun SplashScreen(navController: NavController) {
     }
 
     LaunchedEffect(key1 = progress) {
-        if (progress == 1f) {
+        if (progress >= .5f) {
             navController.popBackStack()
             navController.navigate(NavRoutes.Catalog.route)
         }
