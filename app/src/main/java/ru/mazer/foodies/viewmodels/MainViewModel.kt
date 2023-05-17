@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.mazer.foodies.domain.models.CartItem
 import ru.mazer.foodies.domain.models.Dish
+import ru.mazer.foodies.domain.models.Tag
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,20 +18,25 @@ class MainViewModel @Inject constructor() : ViewModel() {
     }
     val dishList: LiveData<List<Dish>> = _dishList
 
+    private val _filteredDishList: MutableLiveData<List<Dish>> by lazy {
+        MutableLiveData<List<Dish>>(listOf())
+    }
+    val filteredDishList: LiveData<List<Dish>> = _filteredDishList
+
     private val _cartList: MutableLiveData<List<CartItem>> by lazy {
         MutableLiveData<List<CartItem>>(listOf())
     }
     val cartList: LiveData<List<CartItem>> = _cartList
 
-    private val _veganOnly: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>(false)
+    private val _tagsList: MutableLiveData<List<Tag>> by lazy {
+        MutableLiveData<List<Tag>>(listOf())
     }
-    val veganOnly: LiveData<Boolean> = _veganOnly
+    val tagsList: LiveData<List<Tag>> = _tagsList
 
-    private val _hotOnly: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>(false)
+    private val _checkedTagsList: MutableLiveData<List<Int>> by lazy {
+        MutableLiveData<List<Int>>(listOf())
     }
-    val hotOnly: LiveData<Boolean> = _hotOnly
+    val checkedTagsList: LiveData<List<Int>> = _checkedTagsList
 
     private val _discountOnly: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
@@ -38,6 +44,28 @@ class MainViewModel @Inject constructor() : ViewModel() {
     val discountOnly: LiveData<Boolean> = _discountOnly
 
     init {
+        _tagsList.value = listOf(
+            Tag(
+                id = 1,
+                name = "Новинка"
+            ),
+            Tag(
+                id = 2,
+                name = "Вегетарианское блюдо"
+            ),
+            Tag(
+                id = 3,
+                name = "Хит!"
+            ),
+            Tag(
+                id = 4,
+                name = "Острое"
+            ),
+            Tag(
+                id = 5,
+                name = "Экспресс-меню"
+            )
+        )
         Log.e("MainViewModel", "INITIALISATION")
         _dishList.value = listOf(
             Dish(
@@ -71,8 +99,9 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 fats_per_100_grams = 7.4,
                 carbohydrates_per_100_grams = 38.6,
                 tag_ids = listOf(4)
-            ),
+            )
         )
+        _filteredDishList.value = _dishList.value
     }
 
     fun addToCart(dish: Dish) {
@@ -105,7 +134,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
                         addAll(_cartList.value!!.filter { it != oldCartItem })
                         add(CartItem(id = dish.id, count = oldCartItem.count - 1))
                     }
-                else{
+                else {
                     _cartList.value = _cartList.value!!.filter { it != oldCartItem }
                 }
             } else {
@@ -114,16 +143,50 @@ class MainViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun checkVegan(value: Boolean){
-        _veganOnly.value = value
+    fun checkTag(
+        newValue: Boolean,
+        tagId: Int
+    ) {
+        if (newValue) {
+            _checkedTagsList.value = buildList {
+                addAll(_checkedTagsList.value!!)
+                add(tagId)
+            }
+        } else {
+            _checkedTagsList.value = _checkedTagsList.value!!.filter { it != tagId }
+        }
     }
 
-    fun checkHot(value: Boolean){
-        _hotOnly.value = value
-    }
-
-    fun checkDiscount(value: Boolean){
-        _discountOnly.value = value
+    fun checkDiscountTag(
+        newValue: Boolean
+    ){
+        _discountOnly.value = newValue
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

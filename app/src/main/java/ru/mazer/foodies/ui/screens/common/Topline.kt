@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -32,8 +34,9 @@ import ru.mazer.foodies.domain.models.Tag
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopLine(
-    tags: List<Tag>,
+    categories: List<Tag>,
     isScrolled: Boolean,
+    badgeValue: Int,
     onFilterClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onTagClick: () -> Unit = {}
@@ -54,14 +57,28 @@ fun TopLine(
                 )
             },
             navigationIcon = {
-                IconButton(onClick = {
-                    onFilterClick()
-                }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_filter),
-                        contentDescription = "Filters",
-                        modifier = Modifier.size(24.dp)
-                    )
+                BadgedBox(
+                    badge = {
+                        if (badgeValue != 0)
+                            Badge(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                            ) {
+                                Text(text = badgeValue.toString())
+                            }
+                    },
+                    modifier = Modifier.padding(start = 8.dp).size(24.dp)
+                ) {
+                    IconButton(
+                        onClick = {
+                            onFilterClick()
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_filter),
+                            contentDescription = "Filters",
+                        )
+                    }
                 }
             },
             actions = {
@@ -84,7 +101,7 @@ fun TopLine(
                 .background(Color.White)
                 .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
-            items(tags) { tag ->
+            items(categories) { tag ->
                 Text(
                     text = tag.name,
                     color = if (tag.id == selectedId.value) Color.White else Color.Black,

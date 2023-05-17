@@ -7,12 +7,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Divider
@@ -65,13 +68,13 @@ fun CatalogScreen(
     val lazyGridScrollState = rememberLazyGridState()
     val isScrolled =
         remember { derivedStateOf { lazyGridScrollState.firstVisibleItemScrollOffset > 0 } }
-    val dishes = vm.dishList.observeAsState()
+    val dishes = vm.filteredDishList.observeAsState()
     val coroutineScope = rememberCoroutineScope()
     val isCartNotEmpty =
         remember { derivedStateOf { cart.value != null && cart.value!!.isNotEmpty() } }
-    val veganOnly = vm.veganOnly.observeAsState(false)
-    val hotOnly = vm.hotOnly.observeAsState(false)
-    val discountOnly = vm.discountOnly.observeAsState(false)
+    val tags = vm.tagsList.observeAsState()
+    val checkedTags = vm.checkedTagsList.observeAsState()
+    val discoutnTag = vm.discountOnly.observeAsState()
 
     Log.e("CatalogScreen", "Cart size = ${cart.value?.size}")
     Log.e("CatalogScreen", "isCartNotEmpty = ${isCartNotEmpty.value}")
@@ -79,7 +82,7 @@ fun CatalogScreen(
     BottomSheetScaffold(
         topBar = {
             TopLine(
-                tags = listOf(
+                categories = listOf(
                     Tag(id = 1, name = "Роллы"),
                     Tag(id = 2, name = "Суши"),
                     Tag(id = 3, name = "Наборы"),
@@ -96,7 +99,14 @@ fun CatalogScreen(
                 },
                 onSearchClick = {
                     navController.navigate(NavRoutes.Search.route)
-                }
+                },
+                onTagClick = {},
+                badgeValue = if (checkedTags.value != null) {
+                    if (discoutnTag.value == true)
+                        checkedTags.value!!.size + 1
+                    else
+                        checkedTags.value!!.size
+                } else 0
             )
         },
         containerColor = Color.White,
@@ -122,10 +132,11 @@ fun CatalogScreen(
                         .clickable { coroutineScope.launch { bottomSheetState.hide() } }
                 )
                 Column(
-                    modifier = Modifier.background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
-                    )
+                    modifier = Modifier
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(topStart = 50.dp, topEnd = 50.dp)
+                        )
                 ) {
                     Text(
                         text = "Подобрать блюда",
@@ -134,39 +145,40 @@ fun CatalogScreen(
                             .padding(top = 32.dp, start = 24.dp, end = 24.dp)
                             .fillMaxWidth()
                     )
-                    Column(modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp)) {
-                        FilterRow(
-                            title = "Без мяса",
-                            checked = veganOnly.value,
-                            onCheckedChange = { vm.checkVegan(it) },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Box(
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .align(Alignment.TopCenter)
-                            )
+                    LazyColumn(
+                        modifier = Modifier
+                            .height(200.dp)
+                            .padding(vertical = 16.dp, horizontal = 24.dp)
+                    ) {
+                        if (tags.value != null)
+                            items(tags.value!!) {
+                                Box {
+                                    FilterRow(
+                                        title = it.name,
+                                        checked = checkedTags.value!!.contains(it.id),
+                                        onCheckedChange = { newValue ->
+                                            vm.checkTag(
+                                                newValue = newValue,
+                                                tagId = it.id
+                                            )
+                                        },
+                                        modifier = Modifier.fillMaxWidth()
+                                    )
+                                    Divider(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .align(Alignment.BottomCenter)
+                                    )
+                                }
+                            }
+                        item {
                             FilterRow(
-                                title = "Острое",
-                                checked = hotOnly.value,
-                                onCheckedChange = { vm.checkHot(it) },
+                                title = "Со скидкой",
+                                checked = if (discoutnTag.value != null) discoutnTag.value!! else false,
+                                onCheckedChange = { vm.checkDiscountTag(it) },
                                 modifier = Modifier.fillMaxWidth()
                             )
-                            Divider(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .align(Alignment.BottomCenter)
-                            )
                         }
-                        FilterRow(
-                            title = "Со скидкой",
-                            checked = discountOnly.value,
-                            onCheckedChange = { vm.checkDiscount(it) },
-                            modifier = Modifier.fillMaxWidth()
-                        )
                     }
                     FixedButton(
                         onClick = { coroutineScope.launch { bottomSheetState.hide() } }
