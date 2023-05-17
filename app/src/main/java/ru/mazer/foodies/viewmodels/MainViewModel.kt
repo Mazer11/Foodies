@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.mazer.foodies.domain.models.CartItem
+import ru.mazer.foodies.domain.models.Category
 import ru.mazer.foodies.domain.models.Dish
 import ru.mazer.foodies.domain.models.Tag
 import javax.inject.Inject
@@ -53,7 +54,50 @@ class MainViewModel @Inject constructor() : ViewModel() {
     }
     val searchText: LiveData<String> = _searchText
 
+    private val _categories: MutableLiveData<List<Category>> by lazy {
+        MutableLiveData<List<Category>>(listOf())
+    }
+    val categories: LiveData<List<Category>> = _categories
+
+    private val _currentCategory: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>(0)
+    }
+
+    private val _currentCategoryDishes: MutableLiveData<List<Dish>> by lazy {
+        MutableLiveData<List<Dish>>(listOf())
+    }
+
     init {
+        _categories.value = listOf(
+            Category(
+                id = 676153,
+                name = "Горячие блюда"
+            ),
+            Category(
+                id = 676154,
+                name = "Суши"
+            ),
+            Category(
+                id = 676155,
+                name = "Соусы"
+            ),
+            Category(
+                id = 676156,
+                name = "Детское меню"
+            ),
+            Category(
+                id = 676157,
+                name = "Подарочные сертификаты"
+            ),
+            Category(
+                id = 676159,
+                name = "Напитки"
+            ),
+            Category(
+                id = 676160,
+                name = "Горячие закуски"
+            ),
+        )
         _filtersList.value = listOf(
             Tag(
                 id = 1,
@@ -76,7 +120,6 @@ class MainViewModel @Inject constructor() : ViewModel() {
                 name = "Экспресс-меню"
             )
         )
-        Log.e("MainViewModel", "INITIALISATION")
         _dishList.value = listOf(
             Dish(
                 id = 9,
@@ -160,6 +203,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
             )
         )
         _filteredDishList.value = _dishList.value
+        onCategoryClick(_categories.value!!.first().id)
     }
 
     fun addToCart(dish: Dish) {
@@ -234,15 +278,26 @@ class MainViewModel @Inject constructor() : ViewModel() {
         _searchList.value = dishesFromSearch
     }
 
+    fun onCategoryClick(tagId: Int){
+        if (_currentCategory.value == tagId)
+            return
+        _currentCategory.value = tagId
+        _currentCategoryDishes.value = _dishList.value!!.filter { it.category_id == tagId }
+        _filteredDishList.value = _currentCategoryDishes.value
+        if (!_checkedTagsList.value.isNullOrEmpty()){
+            onFiltersChanged()
+        }
+    }
+
     fun onFiltersChanged() {
         if (_checkedTagsList.value.isNullOrEmpty()) {
             if (_discountOnly.value == true)
-                _filteredDishList.value = _dishList.value!!.filter { it.price_old != null }
+                _filteredDishList.value = _currentCategoryDishes.value!!.filter { it.price_old != null }
             else
-                _filteredDishList.value = _dishList.value
+                _filteredDishList.value = _currentCategoryDishes.value
             return
         }
-        val filteredDish = _dishList.value!!.filter {
+        val filteredDish = _currentCategoryDishes.value!!.filter {
             it.tag_ids.isNotEmpty()
         }.filter {
             it.tag_ids.containsAll(_checkedTagsList.value!!)

@@ -29,20 +29,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import ru.mazer.foodies.R
-import ru.mazer.foodies.domain.models.Tag
+import ru.mazer.foodies.domain.models.Category
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopLine(
-    categories: List<Tag>,
+    categories: List<Category>,
     isScrolled: Boolean,
     badgeValue: Int,
     onFilterClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
-    onCategoryClick: () -> Unit = {}
+    onCategoryClick: (Int) -> Unit = {}
 ) {
 
-    val selectedId = remember { mutableStateOf(1) }
+    val selectedId = remember { mutableStateOf(categories.first().id) }
 
     Column(
         modifier = Modifier.shadow(if (isScrolled) 8.dp else 0.dp)
@@ -110,7 +110,7 @@ fun TopLine(
                         .padding(horizontal = 4.dp)
                         .clickable {
                             selectedId.value = tag.id
-                            onCategoryClick()
+                            onCategoryClick(tag.id)
                         }
                         .background(
                             color = if (tag.id == selectedId.value)

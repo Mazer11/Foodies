@@ -43,7 +43,6 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import ru.mazer.foodies.R
 import ru.mazer.foodies.ui.screens.common.TopLine
-import ru.mazer.foodies.domain.models.Tag
 import ru.mazer.foodies.ui.navigation.NavRoutes
 import ru.mazer.foodies.ui.screens.catalog.components.FilterRow
 import ru.mazer.foodies.ui.screens.common.DishCard
@@ -75,16 +74,12 @@ fun CatalogScreen(
     val tags = vm.filtersList.observeAsState()
     val checkedTags = vm.checkedTagsList.observeAsState()
     val discountTag = vm.discountOnly.observeAsState()
+    val categories = vm.categories.observeAsState(listOf())
 
     BottomSheetScaffold(
         topBar = {
             TopLine(
-                categories = listOf(
-                    Tag(id = 1, name = "Роллы"),
-                    Tag(id = 2, name = "Суши"),
-                    Tag(id = 3, name = "Наборы"),
-                    Tag(id = 4, name = "Горячие блюда")
-                ),
+                categories = categories.value,
                 isScrolled = isScrolled.value,
                 onFilterClick = {
                     coroutineScope.launch {
@@ -95,7 +90,9 @@ fun CatalogScreen(
                 onSearchClick = {
                     navController.navigate(NavRoutes.Search.route)
                 },
-                onCategoryClick = {},
+                onCategoryClick = {
+                    vm.onCategoryClick(it)
+                },
                 badgeValue = if (checkedTags.value != null) {
                     if (discountTag.value == true)
                         checkedTags.value!!.size + 1
