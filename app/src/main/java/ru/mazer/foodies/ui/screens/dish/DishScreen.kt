@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ru.mazer.foodies.R
@@ -154,7 +155,7 @@ fun DishScreenPreview() {
 
     FoodiesTheme {
         val navController = rememberNavController()
-        val mainViewModel = MainViewModel()
+        val mainViewModel = hiltViewModel<MainViewModel>()
         DishScreen(navController = navController, dishId = 9, vm = mainViewModel)
     }
 

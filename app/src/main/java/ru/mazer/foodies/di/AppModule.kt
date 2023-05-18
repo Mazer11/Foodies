@@ -1,18 +1,23 @@
 package ru.mazer.foodies.di
 
+import android.content.Context
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
-import okhttp3.mockwebserver.MockWebServer
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import ru.mazer.foodies.FoodiesApp
 import ru.mazer.foodies.domain.remote.RemoteApi
 import ru.mazer.foodies.domain.remote.RemoteRepository
+import ru.mazer.foodies.domain.usecases.GetCategoriesUseCase
+import ru.mazer.foodies.domain.usecases.GetProductsUseCase
+import ru.mazer.foodies.domain.usecases.GetTagsUseCase
+import ru.mazer.foodies.domain.usecases.complex.RemoteUseCases
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -21,12 +26,9 @@ import javax.inject.Singleton
 object AppModule {
 
     @Provides
-    fun provideMockServer(): MockWebServer = MockWebServer()
-
-    //Provides base url. For now, here is a placeholder
-    @Provides
-    fun providesBaseUrl(mockWebServer: MockWebServer): HttpUrl {
-        return mockWebServer.url("/")
+    @Singleton
+    fun provideApp(@ApplicationContext app: Context): FoodiesApp {
+        return app as FoodiesApp
     }
 
     //Specify timeouts when needed
@@ -42,23 +44,28 @@ object AppModule {
     fun provideMoshi(): Moshi = Moshi.Builder().build()
 
     @Provides
-    fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi, baseUrl: HttpUrl): Retrofit =
+    fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi, app: FoodiesApp): Retrofit =
         Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(app.getBaseUrl())
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
 
     @Provides
-    @Singleton
     fun provideCardDataApi(retrofit: Retrofit): RemoteApi =
         retrofit.create(RemoteApi::class.java)
 
     @Provides
-    @Singleton
     fun provideRetrofitRepository(api: RemoteApi): RemoteRepository {
         return RemoteRepository(api)
     }
+
+    @Provides
+    fun provideRemoteUseCases(repository: RemoteRepository): RemoteUseCases = RemoteUseCases(
+        getTagsUseCase = GetTagsUseCase(repository),
+        getCategoriesUseCase = GetCategoriesUseCase(repository),
+        getProductsUseCase = GetProductsUseCase(repository)
+    )
 
 }

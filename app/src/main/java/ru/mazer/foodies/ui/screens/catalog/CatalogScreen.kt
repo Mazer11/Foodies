@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
@@ -76,11 +77,13 @@ fun CatalogScreen(
     val discountTag = vm.discountOnly.observeAsState()
     val categories = vm.categories.observeAsState(listOf())
     val currentPrice = vm.currentPrice.observeAsState(0)
+    val currentCategory = vm.currentCategory.observeAsState(categories.value.first().id)
 
     BottomSheetScaffold(
         topBar = {
             TopLine(
                 categories = categories.value,
+                currentCategory = currentCategory.value,
                 isScrolled = isScrolled.value,
                 onFilterClick = {
                     coroutineScope.launch {
@@ -286,7 +289,7 @@ fun CatalogScreen(
 fun CatalogScreenPreview() {
     FoodiesTheme {
         val navController = rememberNavController()
-        val mainViewModel = MainViewModel()
+        val mainViewModel = hiltViewModel<MainViewModel>()
         CatalogScreen(
             navController,
             mainViewModel

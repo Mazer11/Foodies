@@ -20,8 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -35,14 +33,13 @@ import ru.mazer.foodies.domain.models.Category
 @Composable
 fun TopLine(
     categories: List<Category>,
+    currentCategory: Int,
     isScrolled: Boolean,
     badgeValue: Int,
     onFilterClick: () -> Unit = {},
     onSearchClick: () -> Unit = {},
     onCategoryClick: (Int) -> Unit = {}
 ) {
-
-    val selectedId = remember { mutableStateOf(categories.first().id) }
 
     Column(
         modifier = Modifier.shadow(if (isScrolled) 8.dp else 0.dp)
@@ -105,16 +102,15 @@ fun TopLine(
             items(categories) { tag ->
                 Text(
                     text = tag.name,
-                    color = if (tag.id == selectedId.value) Color.White else Color.Black,
+                    color = if (tag.id == currentCategory) Color.White else Color.Black,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .clickable {
-                            selectedId.value = tag.id
                             onCategoryClick(tag.id)
                         }
                         .background(
-                            color = if (tag.id == selectedId.value)
+                            color = if (tag.id == currentCategory)
                                 MaterialTheme.colorScheme.primary
                             else
                                 Color.Transparent,

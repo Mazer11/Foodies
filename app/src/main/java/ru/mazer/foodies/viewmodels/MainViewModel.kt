@@ -5,14 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.mazer.foodies.FoodiesApp
 import ru.mazer.foodies.domain.models.CartItem
 import ru.mazer.foodies.domain.models.Category
 import ru.mazer.foodies.domain.models.Dish
 import ru.mazer.foodies.domain.models.Tag
+import ru.mazer.foodies.domain.usecases.complex.RemoteUseCases
+import ru.mazer.foodies.utils.JsonUtil
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : ViewModel() {
+class MainViewModel @Inject constructor(
+    val remoteUseCases: RemoteUseCases,
+    app: FoodiesApp
+) : ViewModel() {
 
     private val _dishList: MutableLiveData<List<Dish>> by lazy {
         MutableLiveData<List<Dish>>(listOf())
@@ -67,146 +73,16 @@ class MainViewModel @Inject constructor() : ViewModel() {
     private val _currentCategory: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>(0)
     }
+    val currentCategory: LiveData<Int> = _currentCategory
 
     private val _currentCategoryDishes: MutableLiveData<List<Dish>> by lazy {
         MutableLiveData<List<Dish>>(listOf())
     }
 
     init {
-        _categories.value = listOf(
-            Category(
-                id = 676153,
-                name = "Горячие блюда"
-            ),
-            Category(
-                id = 676154,
-                name = "Суши"
-            ),
-            Category(
-                id = 676155,
-                name = "Соусы"
-            ),
-            Category(
-                id = 676156,
-                name = "Детское меню"
-            ),
-            Category(
-                id = 676157,
-                name = "Подарочные сертификаты"
-            ),
-            Category(
-                id = 676159,
-                name = "Напитки"
-            ),
-            Category(
-                id = 676160,
-                name = "Горячие закуски"
-            ),
-        )
-        _filtersList.value = listOf(
-            Tag(
-                id = 1,
-                name = "Новинка"
-            ),
-            Tag(
-                id = 2,
-                name = "Вегетарианское блюдо"
-            ),
-            Tag(
-                id = 3,
-                name = "Хит!"
-            ),
-            Tag(
-                id = 4,
-                name = "Острое"
-            ),
-            Tag(
-                id = 5,
-                name = "Экспресс-меню"
-            )
-        )
-        _dishList.value = listOf(
-            Dish(
-                id = 9,
-                category_id = 676168,
-                name = "Митаки 8шт",
-                description = "Традиционный ролл с огурцом и нежным сливочным сыром  Комплектуется бесплатным набором для роллов (Соевый соус Лайт 35г., васаби 6г., имбирь 15г.). +1 набор за каждые 600 рублей в заказе",
-                image = "1.jpg",
-                price_current = 23000,
-                price_old = 43511,
-                measure = 150,
-                measure_unit = "г",
-                energy_per_100_grams = 302.0,
-                proteins_per_100_grams = 6.1,
-                fats_per_100_grams = 3.7,
-                carbohydrates_per_100_grams = 61.1,
-                tag_ids = listOf(5)
-            ),
-            Dish(
-                id = 21,
-                category_id = 676154,
-                name = "Спайси суши осьминог",
-                description = "Острые суши с осьминогом  Комплектуется бесплатным набором для роллов (Соевый соус Лайт 35г., васаби 6г., имбирь 15г.). +1 набор за каждые 600 рублей в заказе",
-                image = "1.jpg",
-                price_current = 16000,
-                price_old = 20000,
-                measure = 30,
-                measure_unit = "г",
-                energy_per_100_grams = 265.2,
-                proteins_per_100_grams = 10.9,
-                fats_per_100_grams = 7.4,
-                carbohydrates_per_100_grams = 38.6,
-                tag_ids = listOf(4)
-            ),
-            Dish(
-                id = 12,
-                category_id = 676168,
-                name = "Филадельфия Кунжут 8шт",
-                description = "Урамаки ролл в семенах кунжута с нежным лососем, сливочным сыром, огурцом и авокадо  Комплектуется бесплатным набором для роллов (Соевый соус Лайт 35г., васаби 6г., имбирь 15г.). +1 набор за каждые 600 рублей в заказе",
-                image = "1.jpg",
-                price_current = 46000,
-                price_old = null,
-                measure = 225,
-                measure_unit = "г",
-                energy_per_100_grams = 297.7,
-                proteins_per_100_grams = 8.6,
-                fats_per_100_grams = 8.4,
-                carbohydrates_per_100_grams = 46.9,
-                tag_ids = listOf(3)
-            ),
-            Dish(
-                id = 27377,
-                category_id = 676153,
-                name = "Тофу с овощами",
-                description = "Кубики обжаренного тофу с гарниром из капусты пак-чой, стрелок фасоли, помидоров черри и сладкого перца под устричным соусом.",
-                image = "1.jpg",
-                price_current = 33000,
-                price_old = null,
-                measure = 250,
-                measure_unit = "г",
-                energy_per_100_grams = 146.3,
-                proteins_per_100_grams = 3.5,
-                fats_per_100_grams = 11.1,
-                carbohydrates_per_100_grams = 8.8,
-                tag_ids = listOf(2)
-            ),
-            Dish(
-                id = 27842,
-                category_id = 676153,
-                name = " Баклажаны с грибами шиитаке",
-                description = " Баклажаны с грибами шиитаке, обжаренные в соусе унаги ",
-                image = "1.jpg",
-                price_current = 31000,
-                price_old = null,
-                measure = 150,
-                measure_unit = " г ",
-                energy_per_100_grams = 263.7,
-                proteins_per_100_grams = 4.9,
-                fats_per_100_grams = 21.6,
-                carbohydrates_per_100_grams = 11.2,
-                tag_ids = listOf(2, 3)
-            )
-        )
+        _categories.value = JsonUtil.getAssetCategory(app)
+        _filtersList.value = JsonUtil.getAssetTag(app)
+        _dishList.value = JsonUtil.getAssetDish(app)
         _filteredDishList.value = _dishList.value
         onCategoryClick(_categories.value!!.first().id)
     }
@@ -286,13 +162,13 @@ class MainViewModel @Inject constructor() : ViewModel() {
         _searchList.value = dishesFromSearch
     }
 
-    fun onCategoryClick(tagId: Int){
+    fun onCategoryClick(tagId: Int) {
         if (_currentCategory.value == tagId)
             return
         _currentCategory.value = tagId
         _currentCategoryDishes.value = _dishList.value!!.filter { it.category_id == tagId }
         _filteredDishList.value = _currentCategoryDishes.value
-        if (!_checkedTagsList.value.isNullOrEmpty()){
+        if (!_checkedTagsList.value.isNullOrEmpty()) {
             onFiltersChanged()
         }
     }
@@ -300,7 +176,8 @@ class MainViewModel @Inject constructor() : ViewModel() {
     fun onFiltersChanged() {
         if (_checkedTagsList.value.isNullOrEmpty()) {
             if (_discountOnly.value == true)
-                _filteredDishList.value = _currentCategoryDishes.value!!.filter { it.price_old != null }
+                _filteredDishList.value =
+                    _currentCategoryDishes.value!!.filter { it.price_old != null }
             else
                 _filteredDishList.value = _currentCategoryDishes.value
             return
