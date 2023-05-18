@@ -8,8 +8,8 @@ class GetTagsUseCase(
     private val repository: RemoteRepository
 ) {
 
-    operator fun invoke(tags: String): Call<List<Tag>> {
-        return repository.getTags(tags)
+    operator fun invoke(): Call<List<Tag>> {
+        return repository.getTags()
     }
 
 }

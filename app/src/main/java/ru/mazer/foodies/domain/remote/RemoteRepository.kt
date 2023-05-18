@@ -9,16 +9,16 @@ class RemoteRepository(
     private val api: RemoteApi
 ) {
 
-    fun getTags(tags: String): Call<List<Tag>> {
-        return api.getTags(tags)
+    fun getTags(): Call<List<Tag>> {
+        return api.getTags()
     }
 
-    fun getCategories(categories: String): Call<List<Category>> {
-        return api.getCategories(categories)
+    fun getCategories(): Call<List<Category>> {
+        return api.getCategories()
     }
 
-    fun getProducts(products: String): Call<List<Dish>> {
-        return api.getProducts(products)
+    fun getProducts(): Call<List<Dish>> {
+        return api.getProducts()
     }
 
 }

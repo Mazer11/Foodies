@@ -8,8 +8,8 @@ class GetCategoriesUseCase(
     private val repository: RemoteRepository
 ) {
 
-    operator fun invoke(categories: String): Call<List<Category>> {
-        return repository.getCategories(categories)
+    operator fun invoke(): Call<List<Category>> {
+        return repository.getCategories()
     }
 
 }

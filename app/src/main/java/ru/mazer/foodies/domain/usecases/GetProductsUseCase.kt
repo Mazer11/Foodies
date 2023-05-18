@@ -8,8 +8,8 @@ class GetProductsUseCase(
     private val repository: RemoteRepository
 ) {
 
-    operator fun invoke(products: String): Call<List<Dish>> {
-        return repository.getProducts(products)
+    operator fun invoke(): Call<List<Dish>> {
+        return repository.getProducts()
     }
 
 }

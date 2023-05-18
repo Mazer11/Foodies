@@ -4,8 +4,4 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-open class FoodiesApp: Application(){
-
-    open fun getBaseUrl() = "https://api.testovoe.com"
-
-}
+open class FoodiesApp : Application()

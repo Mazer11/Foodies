@@ -7,6 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -24,6 +26,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    fun baseUrl() = "https://api.testovoe.com/".toHttpUrl()
 
     @Provides
     @Singleton
@@ -44,9 +49,9 @@ object AppModule {
     fun provideMoshi(): Moshi = Moshi.Builder().build()
 
     @Provides
-    fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi, app: FoodiesApp): Retrofit =
+    fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi, baseUrl: HttpUrl): Retrofit =
         Retrofit.Builder()
-            .baseUrl(app.getBaseUrl())
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create(moshi))
