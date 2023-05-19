@@ -94,40 +94,42 @@ fun DishScreen(
                             )
                         }
                     }
-                    item {
-                        ListItem(
-                            title = "Вес",
-                            count = "${dish.measure} ${dish.measure_unit}",
-                            modifier = listItemModifier
-                        )
-                    }
-                    item {
-                        ListItem(
-                            title = "Энерг.ценность",
-                            count = "${dish.energy_per_100_grams} ккал",
-                            modifier = listItemModifier
-                        )
-                    }
-                    item {
-                        ListItem(
-                            title = "Белки",
-                            count = "${dish.proteins_per_100_grams} г",
-                            modifier = listItemModifier
-                        )
-                    }
-                    item {
-                        ListItem(
-                            title = "Жиры",
-                            count = "${dish.fats_per_100_grams} г",
-                            modifier = listItemModifier
-                        )
-                    }
-                    item {
-                        ListItem(
-                            title = "Углеводы",
-                            count = "${dish.carbohydrates_per_100_grams} г",
-                            modifier = listItemModifier
-                        )
+                    if (dish.measure != 0) {
+                        item {
+                            ListItem(
+                                title = "Вес",
+                                count = "${dish.measure} ${dish.measure_unit}",
+                                modifier = listItemModifier
+                            )
+                        }
+                        item {
+                            ListItem(
+                                title = "Энерг.ценность",
+                                count = "${dish.energy_per_100_grams} ккал",
+                                modifier = listItemModifier
+                            )
+                        }
+                        item {
+                            ListItem(
+                                title = "Белки",
+                                count = "${dish.proteins_per_100_grams} г",
+                                modifier = listItemModifier
+                            )
+                        }
+                        item {
+                            ListItem(
+                                title = "Жиры",
+                                count = "${dish.fats_per_100_grams} г",
+                                modifier = listItemModifier
+                            )
+                        }
+                        item {
+                            ListItem(
+                                title = "Углеводы",
+                                count = "${dish.carbohydrates_per_100_grams} г",
+                                modifier = listItemModifier
+                            )
+                        }
                     }
                 }
                 FloatingActionButton(
