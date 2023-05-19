@@ -90,6 +90,7 @@ class MainViewModel @Inject constructor(
         MutableLiveData<List<Dish>>(listOf())
     }
 
+    //INITIALISATION
     init {
         _categories.value = remoteUseCases.getCategoriesUseCase.invoke()
         _filtersList.value = remoteUseCases.getTagsUseCase.invoke()
@@ -99,6 +100,8 @@ class MainViewModel @Inject constructor(
         onCategoryClick(_categories.value!!.first().id)
     }
 
+    /**
+     * Adds provided dish to the cart. Also increase currentPrice*/
     fun addToCart(dish: Dish) {
         Log.e("MainViewModel", "Inside addToCart")
         if (_cartList.value != null) {
@@ -124,6 +127,8 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Removes provided dish from the cart. Also decrease currentPrice*/
     fun removeFromCart(dish: Dish) {
         if (_cartList.value != null) {
             val oldCartItem = _cartList.value!!.firstOrNull { it.id == dish.id }
@@ -146,6 +151,8 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Checks/Unchecks tag with provided tagId*/
     fun checkTag(
         newValue: Boolean,
         tagId: Int
@@ -160,12 +167,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * [checkTag] for discount tag*/
     fun checkDiscountTag(
         newValue: Boolean
     ) {
         _discountOnly.value = newValue
     }
 
+    /**
+     * Used as callback for onSearchTextChanged in SearchScreen*/
     fun onSearchTextChanged(newText: String) {
         _searchText.value = newText
         if (newText.isEmpty()) {
@@ -179,6 +190,8 @@ class MainViewModel @Inject constructor(
         _searchList.value = dishesFromSearch
     }
 
+    /**
+     * Used as callback for click event in catalog screen for categories*/
     fun onCategoryClick(tagId: Int) {
         if (_currentCategory.value == tagId)
             return
@@ -190,6 +203,8 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Used as callback for click event in catalog screen for tags(filters)*/
     fun onFiltersChanged() {
         if (_checkedTagsList.value.isNullOrEmpty()) {
             if (_discountOnly.value == true)
@@ -212,29 +227,3 @@ class MainViewModel @Inject constructor(
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
