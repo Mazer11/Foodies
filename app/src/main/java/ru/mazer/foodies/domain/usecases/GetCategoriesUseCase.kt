@@ -1,6 +1,6 @@
 package ru.mazer.foodies.domain.usecases
 
-import ru.mazer.foodies.FoodiesApp
+import android.content.Context
 import ru.mazer.foodies.domain.models.Category
 import ru.mazer.foodies.domain.remote.RemoteRepository
 import ru.mazer.foodies.utils.JsonUtil
@@ -11,7 +11,7 @@ class GetCategoriesUseCase(
     //For real server
     private val repository: RemoteRepository,
     //Only while server is not exists
-    private val app: FoodiesApp
+    private val context: Context
 ) {
 
     operator fun invoke(): List<Category> {
@@ -19,7 +19,7 @@ class GetCategoriesUseCase(
         //return repository.getCategories().execute().body() ?: listOf()
 
         //When server is not exists
-        return JsonUtil.getAssetCategory(app) ?: listOf()
+        return JsonUtil.getAssetCategory(context) ?: listOf()
     }
 
 }

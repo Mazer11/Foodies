@@ -3,8 +3,10 @@ package ru.mazer.foodies.domain.remote
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 import ru.mazer.foodies.domain.models.Category
 import ru.mazer.foodies.domain.models.Dish
+import ru.mazer.foodies.domain.models.PostModel
 import ru.mazer.foodies.domain.models.Tag
 
 interface RemoteApi {
@@ -23,5 +25,9 @@ interface RemoteApi {
     @GET("/get/products")
     @Headers("Content-Type: application/json")
     fun getProducts(): Call<List<Dish>>
+
+    //Post request. Just a sample!
+    @POST("/post/")
+    fun postOrder(body: PostModel): Call<String>
 
 }
