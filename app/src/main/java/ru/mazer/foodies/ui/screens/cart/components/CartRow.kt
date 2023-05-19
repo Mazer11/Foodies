@@ -31,6 +31,8 @@ import ru.mazer.foodies.R
 import ru.mazer.foodies.domain.models.Dish
 import ru.mazer.foodies.ui.theme.Typography
 
+/**
+ * List item for the Cart.*/
 @Composable
 fun CartRow(
     dish: Dish,

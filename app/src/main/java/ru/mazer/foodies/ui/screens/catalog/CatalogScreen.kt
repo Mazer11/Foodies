@@ -37,11 +37,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import ru.mazer.foodies.R
 import ru.mazer.foodies.ui.screens.common.TopLine
@@ -49,10 +46,11 @@ import ru.mazer.foodies.ui.navigation.NavRoutes
 import ru.mazer.foodies.ui.screens.catalog.components.FilterRow
 import ru.mazer.foodies.ui.screens.common.DishCard
 import ru.mazer.foodies.ui.screens.common.FixedButton
-import ru.mazer.foodies.ui.theme.FoodiesTheme
 import ru.mazer.foodies.ui.theme.Typography
 import ru.mazer.foodies.viewmodels.MainViewModel
 
+/**
+ * Screen of catalog of products*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CatalogScreen(
@@ -60,28 +58,44 @@ fun CatalogScreen(
     vm: MainViewModel
 ) {
 
+    //Count of columns in catalog. Could be adaptive
     val columnsCount = 2
+    //Current cart items
     val cart = vm.cartList.observeAsState()
+    //State for bottom sheet with filters
     val bottomSheetState =
         rememberStandardBottomSheetState(initialValue = SheetValue.Hidden, skipHiddenState = false)
+    //State for scaffold of bottom sheet with filters
     val bottomSheetScaffoldState =
         rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState)
+    //Scroll state of lazy grid
     val lazyGridScrollState = rememberLazyGridState()
+    //Boolean state of lazyGridScrollState. True if grid is scrolled
     val isScrolled =
         remember { derivedStateOf { lazyGridScrollState.firstVisibleItemScrollOffset > 0 } }
+    //Exist dishes
     val dishes = vm.filteredDishList.observeAsState()
     val coroutineScope = rememberCoroutineScope()
+    //Boolean state that checks if cart is not empty. True if cart is not empty
     val isCartNotEmpty =
         remember { derivedStateOf { cart.value != null && cart.value!!.isNotEmpty() } }
+    //Exist tags
     val tags = vm.filtersList.observeAsState()
+    //Tags that tagged by user
     val checkedTags = vm.checkedTagsList.observeAsState()
+    //Tag for discount is not inside tags.json, so it uses different state value
     val discountTag = vm.discountOnly.observeAsState()
+    //Checks if "Острое" tag is exists
     val isHotTagExists =
         remember { derivedStateOf { tags.value?.firstOrNull { it.name == "Острое" } != null } }
+    //Checks if "Вегетарианское блюдо" tag is exists
     val isVegaTagExists =
         remember { derivedStateOf { tags.value?.firstOrNull { it.name == "Вегетарианское блюдо" } != null } }
+    //Exist categories
     val categories = vm.categories.observeAsState(listOf())
+    //Current cart price
     val currentPrice = vm.currentPrice.observeAsState(0)
+    //Category that tapped by user
     val currentCategory = vm.currentCategory.observeAsState(categories.value.first().id)
 
     BottomSheetScaffold(
@@ -314,18 +328,5 @@ fun CatalogScreen(
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun CatalogScreenPreview() {
-    FoodiesTheme {
-        val navController = rememberNavController()
-        val mainViewModel = hiltViewModel<MainViewModel>()
-        CatalogScreen(
-            navController,
-            mainViewModel
-        )
     }
 }

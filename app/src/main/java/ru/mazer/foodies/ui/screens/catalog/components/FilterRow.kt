@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import ru.mazer.foodies.ui.theme.Typography
 
+/**
+ * List item of tags*/
 @Composable
 fun FilterRow(
     title: String,

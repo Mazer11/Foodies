@@ -1,5 +1,6 @@
 package ru.mazer.foodies.ui.navigation
 
+//Application navigation routes
 sealed class NavRoutes(val route: String) {
 
     object Cart : NavRoutes("cart_screen")

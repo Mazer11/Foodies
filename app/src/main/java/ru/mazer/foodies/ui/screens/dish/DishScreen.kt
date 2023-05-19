@@ -36,6 +36,8 @@ import ru.mazer.foodies.ui.theme.FoodiesTheme
 import ru.mazer.foodies.ui.theme.Typography
 import ru.mazer.foodies.viewmodels.MainViewModel
 
+/**
+ * Screen with information for specific dish*/
 @Composable
 fun DishScreen(
     navController: NavController,

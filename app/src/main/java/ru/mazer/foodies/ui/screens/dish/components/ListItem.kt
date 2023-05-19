@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import ru.mazer.foodies.ui.theme.Typography
 
+/**
+ * List item for dish screen. Used to display measure, proteins, fats, etc.*/
 @Composable
 fun ListItem(
     title: String,

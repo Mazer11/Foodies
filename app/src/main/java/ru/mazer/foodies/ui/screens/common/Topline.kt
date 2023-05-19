@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import ru.mazer.foodies.R
 import ru.mazer.foodies.domain.models.Category
 
+/**
+ * Catalog screen top app bar with categories, filter and search buttons*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopLine(

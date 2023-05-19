@@ -20,14 +20,18 @@ import ru.mazer.foodies.ui.screens.search.SearchScreen
 import ru.mazer.foodies.ui.screens.splash.SplashScreen
 import ru.mazer.foodies.viewmodels.MainViewModel
 
+//Application Navigation Graph
 @Composable
 fun FoodiesNavGraph(
     navHostController: NavHostController
 ) {
 
+    val startDestination = NavRoutes.Splash.route
+
     NavHost(navController = navHostController, startDestination = "main_graph") {
+        //Uses navigation bloc to provide the same MainViewModel object to screens
         navigation(
-            startDestination = NavRoutes.Splash.route,
+            startDestination = startDestination,
             route = "main_graph"
         ) {
             composable(route = NavRoutes.Splash.route) {
@@ -58,6 +62,7 @@ fun FoodiesNavGraph(
                     vm = viewModel
                 )
             }
+            //Passes the dish id through navigation
             composable(
                 route = NavRoutes.Dish.route + "/{id}",
                 arguments = listOf(navArgument("id") {})

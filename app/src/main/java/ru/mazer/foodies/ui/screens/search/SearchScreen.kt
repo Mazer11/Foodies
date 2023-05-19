@@ -45,23 +45,32 @@ import ru.mazer.foodies.ui.screens.common.DishCard
 import ru.mazer.foodies.ui.theme.Typography
 import ru.mazer.foodies.viewmodels.MainViewModel
 
+/**
+ * Screen where user can use search feature*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     navController: NavController,
     vm: MainViewModel
 ) {
+    //Entered search text
     val searchText = vm.searchText.observeAsState("")
+    //The result of searching
     val searchResult = vm.searchList.observeAsState()
+    //Current cart items
     val cart = vm.cartList.observeAsState()
     val focusManager = LocalFocusManager.current
+    //Exist tags
     val tags = vm.filtersList.observeAsState()
+    //The number of columns for dishes
     val columnsCount = 2
+    //Checks if "Острое" tag is exists
     val isHotTagExists =
         remember { derivedStateOf { tags.value?.firstOrNull { it.name == "Острое" } != null } }
+    //Checks if "Вегетарианское блюдо" tag is exists
     val isVegaTagExists =
         remember { derivedStateOf { tags.value?.firstOrNull { it.name == "Вегетарианское блюдо" } != null } }
-    val inter = remember { MutableInteractionSource() }
+    val interactionSource = remember { MutableInteractionSource() }
 
     Scaffold(
         topBar = {
@@ -74,7 +83,7 @@ fun SearchScreen(
                             enabled = true,
                             singleLine = true,
                             visualTransformation = VisualTransformation.None,
-                            interactionSource = inter,
+                            interactionSource = interactionSource,
                             placeholder = {
                                 Text(
                                     text = "Найти блюдо",
@@ -100,7 +109,7 @@ fun SearchScreen(
                                 onDone = { focusManager.clearFocus() }
                             ),
                             textStyle = Typography.bodyLarge,
-                            interactionSource = inter,
+                            interactionSource = interactionSource,
                             modifier = Modifier
                                 .padding(start = 16.dp)
                                 .fillMaxWidth()

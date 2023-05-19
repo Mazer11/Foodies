@@ -27,29 +27,32 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import ru.mazer.foodies.ui.screens.cart.components.CartRow
 import ru.mazer.foodies.ui.screens.common.FixedButton
-import ru.mazer.foodies.ui.theme.FoodiesTheme
 import ru.mazer.foodies.ui.theme.Typography
 import ru.mazer.foodies.viewmodels.MainViewModel
 
+/**
+ * Screen of user cart*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartScreen(
     navController: NavController,
     vm: MainViewModel
 ) {
+    //Current cart items
     val cartList = vm.cartList.observeAsState()
+    //Exist dishes
     val dishes = vm.dishList.observeAsState()
+    //Price counter
     var currentPrice = 0
-    val isCartEmpty =
+    //State of emptiness of the cart. true if cart is not empty
+    val isCartNotEmpty =
         remember { derivedStateOf { cartList.value != null && cartList.value!!.isNotEmpty() } }
-    if (isCartEmpty.value)
+    //counts current price if cart is not empty
+    if (isCartNotEmpty.value)
         cartList.value!!.forEach { cartItem ->
             currentPrice +=
                 dishes.value!!.first { it.id == cartItem.id }.price_current * cartItem.count
@@ -80,7 +83,7 @@ fun CartScreen(
             )
         },
         bottomBar = {
-            if (isCartEmpty.value)
+            if (isCartNotEmpty.value)
                 FixedButton(
                     onClick = {},
                     modifier = Modifier.shadow(
@@ -95,7 +98,7 @@ fun CartScreen(
                 }
         }
     ) { paddingValues ->
-        if (isCartEmpty.value) {
+        if (isCartNotEmpty.value) {
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
@@ -136,14 +139,4 @@ fun CartScreen(
         }
     }
 
-}
-
-@Preview
-@Composable
-fun CartScreenPreview() {
-    FoodiesTheme {
-        val navController = rememberNavController()
-        val vm = hiltViewModel<MainViewModel>()
-        CartScreen(navController = navController, vm = vm)
-    }
 }

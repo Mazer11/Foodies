@@ -36,6 +36,8 @@ import ru.mazer.foodies.ui.theme.FoodiesTheme
 import ru.mazer.foodies.ui.theme.Typography
 
 
+/**
+ * Mini-card of dish*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DishCard(

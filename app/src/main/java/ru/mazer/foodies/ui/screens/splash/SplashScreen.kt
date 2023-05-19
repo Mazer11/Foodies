@@ -16,6 +16,8 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import ru.mazer.foodies.R
 import ru.mazer.foodies.ui.navigation.NavRoutes
 
+/**
+ * Screen with splash animation*/
 @Composable
 fun SplashScreen(navController: NavController) {
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.splashscreenanimation))
