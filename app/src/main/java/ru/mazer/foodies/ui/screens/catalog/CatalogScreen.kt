@@ -115,7 +115,12 @@ fun CatalogScreen(
                     navController.navigate(NavRoutes.Search.route)
                 },
                 onCategoryClick = {
-                    vm.onCategoryClick(it)
+                    if (currentCategory.value != it) {
+                        vm.onCategoryClick(it)
+                        coroutineScope.launch {
+                            lazyGridScrollState.scrollToItem(index = 1)
+                        }
+                    }
                 },
                 badgeValue = if (checkedTags.value != null) {
                     if (discountTag.value == true)
@@ -286,7 +291,7 @@ fun CatalogScreen(
                             modifier = Modifier.size(24.dp)
                         )
                         Text(
-                            text = "${currentPrice.value / 100} \u20BD",
+                            text = "${cart.value?.size}" + stringResource(R.string.count) + " ${currentPrice.value / 100} \u20BD",
                             style = Typography.titleMedium,
                             modifier = Modifier.padding(start = 8.dp)
                         )
@@ -321,7 +326,7 @@ fun CatalogScreen(
                             modifier = Modifier.size(24.dp)
                         )
                         Text(
-                            text = "${currentPrice.value / 100} \u20BD",
+                            text = "${cart.value?.size}" + stringResource(R.string.count) + " ${currentPrice.value / 100} \u20BD",
                             style = Typography.titleMedium,
                             modifier = Modifier.padding(start = 8.dp)
                         )

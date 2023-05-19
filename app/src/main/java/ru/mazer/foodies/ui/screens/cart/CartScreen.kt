@@ -88,7 +88,7 @@ fun CartScreen(
                     )
                 ) {
                     Text(
-                        text = stringResource(R.string.order_for) + "${currentPrice.value / 100} \u20BD",
+                        text = stringResource(R.string.order_for) + " ${currentPrice.value / 100} \u20BD",
                         style = Typography.bodyLarge
                     )
                 }

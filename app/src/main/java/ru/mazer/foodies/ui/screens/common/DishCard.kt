@@ -172,11 +172,14 @@ fun DishCard(
                 ) {
                     Text(
                         text = "${dish.price_current / 100} \u20BD",
-                        style = Typography.titleSmall
+                        style = Typography.titleSmall,
+                        maxLines = 1
                     )
                     if (dish.price_old != null)
                         Text(
                             text = "${dish.price_old / 100} \u20BD",
+                            maxLines = 1,
+                            overflow = TextOverflow.Visible,
                             textDecoration = TextDecoration.LineThrough,
                             style = Typography.titleSmall,
                             modifier = Modifier.alpha(.6f)
@@ -184,7 +187,6 @@ fun DishCard(
                 }
         }
     }
-
 }
 
 @Preview

@@ -60,7 +60,7 @@ fun DishScreen(
                         shape = RectangleShape
                     )
                 ) {
-                    Text(text = stringResource(R.string.to_cart_for) + "${dish.price_current.div(100)} \u20BD")
+                    Text(text = stringResource(R.string.to_cart_for) + " ${dish.price_current.div(100)} \u20BD")
                 }
             },
         ) { paddingValues ->

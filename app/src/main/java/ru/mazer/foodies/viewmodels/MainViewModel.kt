@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import ru.mazer.foodies.domain.models.CartItem
 import ru.mazer.foodies.domain.models.Category
 import ru.mazer.foodies.domain.models.Dish
@@ -92,9 +94,11 @@ class MainViewModel @Inject constructor(
 
     //INITIALISATION
     init {
-        _categories.value = remoteUseCases.getCategoriesUseCase.invoke()
-        _filtersList.value = remoteUseCases.getTagsUseCase.invoke()
-        _dishList.value = remoteUseCases.getProductsUseCase.invoke()
+        viewModelScope.launch {
+            _categories.value = remoteUseCases.getCategoriesUseCase.invoke()
+            _filtersList.value = remoteUseCases.getTagsUseCase.invoke()
+            _dishList.value = remoteUseCases.getProductsUseCase.invoke()
+        }
         _filteredDishList.value = _dishList.value
         _filteredDishList.value = _dishList.value
         onCategoryClick(_categories.value!!.first().id)

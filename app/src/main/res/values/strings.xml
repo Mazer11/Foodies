@@ -16,4 +16,5 @@
     <string name="search_dish">Найти блюдо</string>
     <string name="empty_search_message">Ничего не нашлось :(</string>
     <string name="enter_search_text">Введите название блюда, которое ищете</string>
+    <string name="count">шт.,</string>
 </resources>

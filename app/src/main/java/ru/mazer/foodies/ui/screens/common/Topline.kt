@@ -66,7 +66,7 @@ fun TopLine(
                                 Text(text = badgeValue.toString())
                             }
                     },
-                    modifier = Modifier.padding(start = 8.dp).size(24.dp)
+                    modifier = Modifier.padding(start = 8.dp).size(30.dp)
                 ) {
                     IconButton(
                         onClick = {
