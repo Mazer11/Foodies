@@ -67,10 +67,14 @@ object AppModule {
     }
 
     @Provides
-    fun provideRemoteUseCases(repository: RemoteRepository): RemoteUseCases = RemoteUseCases(
-        getTagsUseCase = GetTagsUseCase(repository),
-        getCategoriesUseCase = GetCategoriesUseCase(repository),
-        getProductsUseCase = GetProductsUseCase(repository)
+    fun provideRemoteUseCases(
+        repository: RemoteRepository,
+        //Property only while server doesn't exists
+        app: FoodiesApp
+    ): RemoteUseCases = RemoteUseCases(
+        getTagsUseCase = GetTagsUseCase(repository, app),
+        getCategoriesUseCase = GetCategoriesUseCase(repository, app),
+        getProductsUseCase = GetProductsUseCase(repository, app)
     )
 
 }

@@ -5,19 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ru.mazer.foodies.FoodiesApp
 import ru.mazer.foodies.domain.models.CartItem
 import ru.mazer.foodies.domain.models.Category
 import ru.mazer.foodies.domain.models.Dish
 import ru.mazer.foodies.domain.models.Tag
 import ru.mazer.foodies.domain.usecases.complex.RemoteUseCases
-import ru.mazer.foodies.utils.JsonUtil
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val remoteUseCases: RemoteUseCases,
-    app: FoodiesApp
+    remoteUseCases: RemoteUseCases,
 ) : ViewModel() {
 
     private val _dishList: MutableLiveData<List<Dish>> by lazy {
@@ -80,9 +77,10 @@ class MainViewModel @Inject constructor(
     }
 
     init {
-        _categories.value = JsonUtil.getAssetCategory(app)
-        _filtersList.value = JsonUtil.getAssetTag(app)
-        _dishList.value = JsonUtil.getAssetDish(app)
+        _categories.value = remoteUseCases.getCategoriesUseCase.invoke()
+        _filtersList.value = remoteUseCases.getTagsUseCase.invoke()
+        _dishList.value = remoteUseCases.getProductsUseCase.invoke()
+        _filteredDishList.value = _dishList.value
         _filteredDishList.value = _dishList.value
         onCategoryClick(_categories.value!!.first().id)
     }
