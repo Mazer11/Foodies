@@ -9,14 +9,17 @@ import ru.mazer.foodies.domain.models.Tag
 
 interface RemoteApi {
 
+    //Get request for list of exist tags
     @GET("/get/tags")
     @Headers("Content-Type: application/json")
     fun getTags(): Call<List<Tag>>
 
+    //Get request for list of exist categories
     @GET("/get/categories")
     @Headers("Content-Type: application/json")
     fun getCategories(): Call<List<Category>>
 
+    //Get request for list of exist products
     @GET("/get/products")
     @Headers("Content-Type: application/json")
     fun getProducts(): Call<List<Dish>>

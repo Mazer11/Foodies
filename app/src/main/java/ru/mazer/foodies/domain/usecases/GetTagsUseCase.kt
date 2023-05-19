@@ -5,6 +5,8 @@ import ru.mazer.foodies.domain.models.Tag
 import ru.mazer.foodies.domain.remote.RemoteRepository
 import ru.mazer.foodies.utils.JsonUtil
 
+/**
+ * Use case for get request for list of tags*/
 class GetTagsUseCase(
     //For real server
     private val repository: RemoteRepository,

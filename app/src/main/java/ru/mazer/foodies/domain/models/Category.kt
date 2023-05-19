@@ -5,8 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Category(
-    //уникальный идентификатор категории
+    //Unique id of category
     @Json(name = "id") val id: Int,
-    //название категории
+    //Name of category
     @Json(name = "name") val name: String
 )

@@ -27,6 +27,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    //Provides base URL. While the server doesn't exist, it uses sample URL
     @Provides
     fun baseUrl() = "https://api.testovoe.com/".toHttpUrl()
 
@@ -36,6 +37,7 @@ object AppModule {
         return app as FoodiesApp
     }
 
+    //Provides OkHttpClient
     //Specify timeouts when needed
     @Provides
     fun providesOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
@@ -66,10 +68,11 @@ object AppModule {
         return RemoteRepository(api)
     }
 
+    //Provides use cases for retrofit API
+    //Property app needs only while server doesn't exist
     @Provides
     fun provideRemoteUseCases(
         repository: RemoteRepository,
-        //Property only while server doesn't exists
         app: FoodiesApp
     ): RemoteUseCases = RemoteUseCases(
         getTagsUseCase = GetTagsUseCase(repository, app),

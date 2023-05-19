@@ -5,6 +5,8 @@ import ru.mazer.foodies.domain.models.Category
 import ru.mazer.foodies.domain.remote.RemoteRepository
 import ru.mazer.foodies.utils.JsonUtil
 
+/**
+ * Use case for get request for list of categories*/
 class GetCategoriesUseCase(
     //For real server
     private val repository: RemoteRepository,

@@ -5,8 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Tag(
-    //уникальный идентификатор атрибута
+    //Unique id
     @Json(name = "id") val id: Int,
-    //название атрибута
+    //Tag(filter) name
     @Json(name = "name") val name: String
 )

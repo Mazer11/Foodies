@@ -5,6 +5,8 @@ import ru.mazer.foodies.domain.models.Dish
 import ru.mazer.foodies.domain.remote.RemoteRepository
 import ru.mazer.foodies.utils.JsonUtil
 
+/**
+ * Use case for get request for list of products*/
 class GetProductsUseCase(
     //For real server
     private val repository: RemoteRepository,
