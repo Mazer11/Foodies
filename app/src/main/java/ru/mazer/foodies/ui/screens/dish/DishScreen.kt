@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -59,7 +60,7 @@ fun DishScreen(
                         shape = RectangleShape
                     )
                 ) {
-                    Text(text = "В корзину за ${dish.price_current.div(100)} \u20BD")
+                    Text(text = stringResource(R.string.to_cart_for) + "${dish.price_current.div(100)} \u20BD")
                 }
             },
         ) { paddingValues ->
@@ -99,35 +100,35 @@ fun DishScreen(
                     if (dish.measure != 0) {
                         item {
                             ListItem(
-                                title = "Вес",
+                                title = stringResource(R.string.weight),
                                 count = "${dish.measure} ${dish.measure_unit}",
                                 modifier = listItemModifier
                             )
                         }
                         item {
                             ListItem(
-                                title = "Энерг.ценность",
+                                title = stringResource(R.string.energy),
                                 count = "${dish.energy_per_100_grams} ккал",
                                 modifier = listItemModifier
                             )
                         }
                         item {
                             ListItem(
-                                title = "Белки",
+                                title = stringResource(R.string.proteins),
                                 count = "${dish.proteins_per_100_grams} г",
                                 modifier = listItemModifier
                             )
                         }
                         item {
                             ListItem(
-                                title = "Жиры",
+                                title = stringResource(R.string.fats),
                                 count = "${dish.fats_per_100_grams} г",
                                 modifier = listItemModifier
                             )
                         }
                         item {
                             ListItem(
-                                title = "Углеводы",
+                                title = stringResource(R.string.carbohydrates),
                                 count = "${dish.carbohydrates_per_100_grams} г",
                                 modifier = listItemModifier
                             )

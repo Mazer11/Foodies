@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Foodies</string>
+    <string name="cart">Корзина</string>
+    <string name="order_for">Заказать за</string>
+    <string name="empty_cart_message">Пусто, выберите блюда в каталоге :)</string>
+    <string name="bottom_sheet_title">Подобрать блюда</string>
+    <string name="discount_tag">Со скидкой</string>
+    <string name="ready">Готово</string>
+    <string name="empty_catalog">Таких блюд нет :(\nПопробуйте изменить фильтры</string>
+    <string name="to_cart_for">В корзину за</string>
+    <string name="weight">Вес</string>
+    <string name="energy">Энерг.ценность</string>
+    <string name="proteins">Белки</string>
+    <string name="fats">Жиры</string>
+    <string name="carbohydrates">Углеводы</string>
+    <string name="search_dish">Найти блюдо</string>
+    <string name="empty_search_message">Ничего не нашлось :(</string>
+    <string name="enter_search_text">Введите название блюда, которое ищете</string>
 </resources>

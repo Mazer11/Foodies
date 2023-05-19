@@ -26,9 +26,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import ru.mazer.foodies.R
 import ru.mazer.foodies.ui.screens.cart.components.CartRow
 import ru.mazer.foodies.ui.screens.common.FixedButton
 import ru.mazer.foodies.ui.theme.Typography
@@ -57,7 +59,7 @@ fun CartScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Корзина",
+                        text = stringResource(R.string.cart),
                         modifier = Modifier.padding(start = 32.dp)
                     )
                 },
@@ -86,7 +88,7 @@ fun CartScreen(
                     )
                 ) {
                     Text(
-                        text = "Заказать за ${currentPrice.value / 100} \u20BD",
+                        text = stringResource(R.string.order_for) + "${currentPrice.value / 100} \u20BD",
                         style = Typography.bodyLarge
                     )
                 }
@@ -122,7 +124,7 @@ fun CartScreen(
                     .padding(paddingValues)
             ) {
                 Text(
-                    text = "Пусто, выберите блюда в каталоге :)",
+                    text = stringResource(R.string.empty_cart_message),
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .align(Alignment.Center)

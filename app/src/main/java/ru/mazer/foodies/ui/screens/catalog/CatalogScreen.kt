@@ -37,6 +37,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
@@ -159,7 +160,7 @@ fun CatalogScreen(
                         )
                 ) {
                     Text(
-                        text = "Подобрать блюда",
+                        text = stringResource(R.string.bottom_sheet_title),
                         style = Typography.titleMedium,
                         modifier = Modifier
                             .padding(top = 32.dp, start = 24.dp, end = 24.dp)
@@ -193,7 +194,7 @@ fun CatalogScreen(
                             }
                         item {
                             FilterRow(
-                                title = "Со скидкой",
+                                title = stringResource(R.string.discount_tag),
                                 checked = if (discountTag.value != null) discountTag.value!! else false,
                                 onCheckedChange = { vm.checkDiscountTag(it) },
                                 modifier = Modifier.fillMaxWidth()
@@ -208,7 +209,7 @@ fun CatalogScreen(
                             }
                         }
                     ) {
-                        Text(text = "Готово")
+                        Text(text = stringResource(R.string.ready))
                     }
                 }
             }
@@ -299,7 +300,7 @@ fun CatalogScreen(
                     .padding()
             ) {
                 Text(
-                    text = "Таких блюд нет :(\nПопробуйте изменить фильтры",
+                    text = stringResource(R.string.empty_catalog),
                     modifier = Modifier
                         .alpha(.6f)
                         .align(Alignment.Center)

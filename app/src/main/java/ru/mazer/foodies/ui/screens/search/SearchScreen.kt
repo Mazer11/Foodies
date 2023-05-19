@@ -35,6 +35,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -86,7 +87,7 @@ fun SearchScreen(
                             interactionSource = interactionSource,
                             placeholder = {
                                 Text(
-                                    text = "Найти блюдо",
+                                    text = stringResource(R.string.search_dish),
                                     modifier = Modifier.alpha(.6f)
                                 )
                             },
@@ -203,7 +204,7 @@ fun SearchScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        text = "Ничего не нашлось :(",
+                        text = stringResource(R.string.empty_search_message),
                         modifier = Modifier
                             .alpha(.6f)
                             .align(Alignment.Center)
@@ -216,7 +217,7 @@ fun SearchScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Text(
-                    text = "Введите название блюда, которое ищете",
+                    text = stringResource(R.string.enter_search_text),
                     modifier = Modifier
                         .alpha(.6f)
                         .align(Alignment.Center)
