@@ -9,6 +9,8 @@ import ru.mazer.foodies.domain.models.Category
 import ru.mazer.foodies.domain.models.Dish
 import ru.mazer.foodies.domain.models.Tag
 
+/**
+ * Util object for interactions with JSON. Uses Moshi for conversions*/
 object JsonUtil {
 
     private val moshi = Moshi.Builder()

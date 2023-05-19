@@ -12,66 +12,80 @@ import ru.mazer.foodies.domain.models.Tag
 import ru.mazer.foodies.domain.usecases.complex.RemoteUseCases
 import javax.inject.Inject
 
+/**
+ * The main ViewModel class for this application*/
 @HiltViewModel
 class MainViewModel @Inject constructor(
     remoteUseCases: RemoteUseCases,
 ) : ViewModel() {
 
+    //Exist dishes
     private val _dishList: MutableLiveData<List<Dish>> by lazy {
         MutableLiveData<List<Dish>>(listOf())
     }
     val dishList: LiveData<List<Dish>> = _dishList
 
+    //The result of searching in SearchScreen
     private val _searchList: MutableLiveData<List<Dish>> by lazy {
         MutableLiveData<List<Dish>>(listOf())
     }
     val searchList: LiveData<List<Dish>> = _searchList
 
+    //The dishes for catalog screen. It could be filtered by tags in bottomSheet
     private val _filteredDishList: MutableLiveData<List<Dish>> by lazy {
         MutableLiveData<List<Dish>>(listOf())
     }
     val filteredDishList: LiveData<List<Dish>> = _filteredDishList
 
+    //Current cart items
     private val _cartList: MutableLiveData<List<CartItem>> by lazy {
         MutableLiveData<List<CartItem>>(listOf())
     }
     val cartList: LiveData<List<CartItem>> = _cartList
 
+    //Exist Tags(filters)
     private val _filtersList: MutableLiveData<List<Tag>> by lazy {
         MutableLiveData<List<Tag>>(listOf())
     }
     val filtersList: LiveData<List<Tag>> = _filtersList
 
+    //Tags that tagged by user
     private val _checkedTagsList: MutableLiveData<List<Int>> by lazy {
         MutableLiveData<List<Int>>(listOf())
     }
     val checkedTagsList: LiveData<List<Int>> = _checkedTagsList
 
+    //State of discount tag
     private val _discountOnly: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
     }
     val discountOnly: LiveData<Boolean> = _discountOnly
 
+    //Current search text
     private val _searchText: MutableLiveData<String> by lazy {
         MutableLiveData<String>("")
     }
     val searchText: LiveData<String> = _searchText
 
+    //Exist categories
     private val _categories: MutableLiveData<List<Category>> by lazy {
         MutableLiveData<List<Category>>(listOf())
     }
     val categories: LiveData<List<Category>> = _categories
 
+    //Current cart price
     private val _currentPrice: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>(0)
     }
     val currentPrice: LiveData<Int> = _currentPrice
 
+    //Current Category
     private val _currentCategory: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>(0)
     }
     val currentCategory: LiveData<Int> = _currentCategory
 
+    //All Dishes of current category
     private val _currentCategoryDishes: MutableLiveData<List<Dish>> by lazy {
         MutableLiveData<List<Dish>>(listOf())
     }
@@ -91,11 +105,13 @@ class MainViewModel @Inject constructor(
             val oldCartItem = _cartList.value!!.firstOrNull { it.id == dish.id }
             Log.e("MainViewModel", "Old id = ${oldCartItem?.id} count = ${oldCartItem?.count}")
             if (oldCartItem != null) {
+                val oldCartItemIndex = _cartList.value!!.indexOf(oldCartItem)
                 Log.e("MainViewModel", "Inside not null")
                 _currentPrice.value = _currentPrice.value!! + dish.price_current
                 _cartList.value = buildList {
-                    addAll(_cartList.value!!.filter { it != oldCartItem })
-                    add(CartItem(id = dish.id, count = oldCartItem.count + 1))
+                    addAll(_cartList.value!!.subList(0, oldCartItemIndex))
+                    add(oldCartItem.copy(count = oldCartItem.count + 1))
+                    addAll(_cartList.value!!.subList(oldCartItemIndex+1, _cartList.value!!.size))
                 }
             } else {
                 Log.e("MainViewModel", "Inside null")
@@ -113,11 +129,14 @@ class MainViewModel @Inject constructor(
             val oldCartItem = _cartList.value!!.firstOrNull { it.id == dish.id }
             if (oldCartItem != null) {
                 _currentPrice.value = _currentPrice.value!! - dish.price_current
-                if (oldCartItem.count > 1)
+                if (oldCartItem.count > 1) {
+                    val oldCartItemIndex = _cartList.value!!.indexOf(oldCartItem)
                     _cartList.value = buildList {
-                        addAll(_cartList.value!!.filter { it != oldCartItem })
-                        add(CartItem(id = dish.id, count = oldCartItem.count - 1))
+                        addAll(_cartList.value!!.subList(0, oldCartItemIndex))
+                        add(oldCartItem.copy(count = oldCartItem.count - 1))
+                        addAll(_cartList.value!!.subList(oldCartItemIndex+1, _cartList.value!!.size))
                     }
+                }
                 else {
                     _cartList.value = _cartList.value!!.filter { it != oldCartItem }
                 }

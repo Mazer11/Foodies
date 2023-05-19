@@ -47,16 +47,10 @@ fun CartScreen(
     //Exist dishes
     val dishes = vm.dishList.observeAsState()
     //Price counter
-    var currentPrice = 0
+    val currentPrice = vm.currentPrice.observeAsState(0)
     //State of emptiness of the cart. true if cart is not empty
     val isCartNotEmpty =
         remember { derivedStateOf { cartList.value != null && cartList.value!!.isNotEmpty() } }
-    //counts current price if cart is not empty
-    if (isCartNotEmpty.value)
-        cartList.value!!.forEach { cartItem ->
-            currentPrice +=
-                dishes.value!!.first { it.id == cartItem.id }.price_current * cartItem.count
-        }
 
     Scaffold(
         topBar = {
@@ -92,7 +86,7 @@ fun CartScreen(
                     )
                 ) {
                     Text(
-                        text = "Заказать за ${currentPrice / 100} \u20BD",
+                        text = "Заказать за ${currentPrice.value / 100} \u20BD",
                         style = Typography.bodyLarge
                     )
                 }
