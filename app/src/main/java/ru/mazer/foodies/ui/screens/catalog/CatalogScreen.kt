@@ -1,5 +1,6 @@
 package ru.mazer.foodies.ui.screens.catalog
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -75,6 +76,10 @@ fun CatalogScreen(
     val tags = vm.filtersList.observeAsState()
     val checkedTags = vm.checkedTagsList.observeAsState()
     val discountTag = vm.discountOnly.observeAsState()
+    val isHotTagExists =
+        remember { derivedStateOf { tags.value?.firstOrNull { it.name == "Острое" } != null } }
+    val isVegaTagExists =
+        remember { derivedStateOf { tags.value?.firstOrNull { it.name == "Вегетарианское блюдо" } != null } }
     val categories = vm.categories.observeAsState(listOf())
     val currentPrice = vm.currentPrice.observeAsState(0)
     val currentCategory = vm.currentCategory.observeAsState(categories.value.first().id)
@@ -218,6 +223,34 @@ fun CatalogScreen(
                             },
                             onRemove = { thisDish ->
                                 vm.removeFromCart(thisDish)
+                            },
+                            labels = {
+                                if (dish.price_old != null)
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_sales),
+                                        contentDescription = "Discount",
+                                        modifier = Modifier
+                                            .size(28.dp)
+                                            .padding(start = 4.dp)
+                                    )
+                                if (isHotTagExists.value)
+                                    if (dish.tag_ids.contains(tags.value!!.first { it.name == "Острое" }.id))
+                                        Image(
+                                            painter = painterResource(id = R.drawable.ic_hot),
+                                            contentDescription = "Spicy",
+                                            modifier = Modifier
+                                                .size(28.dp)
+                                                .padding(start = 4.dp)
+                                        )
+                                if (isVegaTagExists.value)
+                                    if (dish.tag_ids.contains(tags.value!!.first { it.name == "Вегетарианское блюдо" }.id))
+                                        Image(
+                                            painter = painterResource(id = R.drawable.ic_vegan),
+                                            contentDescription = "Vegetables",
+                                            modifier = Modifier
+                                                .size(28.dp)
+                                                .padding(start = 4.dp)
+                                        )
                             }
                         )
                     }

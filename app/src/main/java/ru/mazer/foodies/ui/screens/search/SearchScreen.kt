@@ -1,10 +1,12 @@
 package ru.mazer.foodies.ui.screens.search
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -23,6 +25,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -52,7 +55,12 @@ fun SearchScreen(
     val searchResult = vm.searchList.observeAsState()
     val cart = vm.cartList.observeAsState()
     val focusManager = LocalFocusManager.current
+    val tags = vm.filtersList.observeAsState()
     val columnsCount = 2
+    val isHotTagExists =
+        remember { derivedStateOf { tags.value?.firstOrNull { it.name == "Острое" } != null } }
+    val isVegaTagExists =
+        remember { derivedStateOf { tags.value?.firstOrNull { it.name == "Вегетарианское блюдо" } != null } }
     val inter = remember { MutableInteractionSource() }
 
     Scaffold(
@@ -149,6 +157,34 @@ fun SearchScreen(
                             },
                             onRemove = { thisDish ->
                                 vm.removeFromCart(thisDish)
+                            },
+                            labels = {
+                                if (dish.price_old != null)
+                                    Image(
+                                        painter = painterResource(id = R.drawable.ic_sales),
+                                        contentDescription = "Discount",
+                                        modifier = Modifier
+                                            .size(28.dp)
+                                            .padding(start = 4.dp)
+                                    )
+                                if (isHotTagExists.value)
+                                    if (dish.tag_ids.contains(tags.value!!.first { it.name == "Острое" }.id))
+                                        Image(
+                                            painter = painterResource(id = R.drawable.ic_hot),
+                                            contentDescription = "Spicy",
+                                            modifier = Modifier
+                                                .size(28.dp)
+                                                .padding(start = 4.dp)
+                                        )
+                                if (isVegaTagExists.value)
+                                    if (dish.tag_ids.contains(tags.value!!.first { it.name == "Вегетарианское блюдо" }.id))
+                                        Image(
+                                            painter = painterResource(id = R.drawable.ic_vegan),
+                                            contentDescription = "Vegetables",
+                                            modifier = Modifier
+                                                .size(28.dp)
+                                                .padding(start = 4.dp)
+                                        )
                             }
                         )
                     }

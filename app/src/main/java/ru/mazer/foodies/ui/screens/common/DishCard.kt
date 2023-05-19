@@ -44,7 +44,8 @@ fun DishCard(
     inCartCount: Int = 0,
     onAdd: (Dish) -> Unit = {},
     onRemove: (Dish) -> Unit = {},
-    onCardClick: () -> Unit = {}
+    onCardClick: () -> Unit = {},
+    labels:@Composable () -> Unit
 ) {
 
     Card(
@@ -62,15 +63,13 @@ fun DishCard(
                     .align(Alignment.Center)
             )
 
-            if (dish.price_old != null)
-                Image(
-                    painter = painterResource(id = R.drawable.ic_sales),
-                    contentDescription = "Discount",
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(start = 8.dp, top = 8.dp)
-                        .size(24.dp)
-                )
+            Row(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(start = 8.dp, top = 8.dp)
+            ) {
+                labels()
+            }
         }
         Column(
             modifier = Modifier
@@ -209,7 +208,15 @@ fun CardPreview() {
                     fats_per_100_grams = 3.7,
                     carbohydrates_per_100_grams = 61.1,
                     tag_ids = listOf()
-                )
+                ),
+                labels = {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_sales),
+                        contentDescription = "Discount",
+                        modifier = Modifier
+                            .size(24.dp)
+                    )
+                }
             )
             Divider(modifier = Modifier.width(8.dp))
             DishCard(
@@ -229,7 +236,8 @@ fun CardPreview() {
                     fats_per_100_grams = 3.4,
                     carbohydrates_per_100_grams = 42.6,
                     tag_ids = listOf(3)
-                )
+                ),
+                labels = {}
             )
         }
     }
