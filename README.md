@@ -24,44 +24,45 @@ Retrofit, OkHttp, Api, api repository и use cases внедряю при пом�
 Экраны гифки:
 <li>Сплеш скрин</li>
 
-![ezgif com-resize](https://github.com/Mazer11/Foodies/assets/86118013/03a09c42-77e5-4bb0-8624-0b00cf3c05e3)
+![ezgif com-resize](https://github.com/Mazer11/Foodies/assets/86118013/77e9bcc0-6424-4de2-9901-cdccfc8e3ee8)
 
 <li>Каталог</li>
 
-![ezgif com-resize (3)](https://github.com/Mazer11/Foodies/assets/86118013/35a1b884-eae4-41f1-b9cd-baa4aed1f2aa)
+![ezgif com-resize (3)](https://github.com/Mazer11/Foodies/assets/86118013/025b6309-63ed-41b3-b84f-ae8c6304b302)
 
 <li>Корзина</li>
 
-![ezgif com-resize (2)](https://github.com/Mazer11/Foodies/assets/86118013/f7c0ae7a-1331-4e19-8cb3-a0cd21c2f5c8)
+![ezgif com-resize (2)](https://github.com/Mazer11/Foodies/assets/86118013/a16b6b94-0c77-40b7-87b0-a983a7dce9e6)
 
 <li>Поиск</li>
 
-![ezgif com-resize (1)](https://github.com/Mazer11/Foodies/assets/86118013/9a386114-6334-4cfc-8d95-299facc566fc)
+![ezgif com-resize (1)](https://github.com/Mazer11/Foodies/assets/86118013/03f43830-23a0-472d-9283-02f151f3d7fa)
 
 <br/>
 Экраны скриншоты:
 <li>Каталог</li>
 
-![photo_2_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/1851e0fc-55eb-4001-86c8-627660ba22ed) ![photo_3_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/a56da2b2-3ff9-4f25-9744-5073fb9a4f3a)
+![photo_2_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/047de1d5-d539-44d3-a350-ac713eb896e7) ![photo_3_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/567decdd-e74f-4911-a233-15b6922485b4)
 
-![photo_7_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/258e1048-a876-4a6f-b609-43255530efac) ![photo_8_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/a526771b-52b2-4ea6-8626-20e293645ebb)
+![photo_7_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/34f8556c-152a-45a6-bca0-6c42150ff3c9) ![photo_8_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/ff72419d-e1cc-4e6a-aa61-44e6187794fb)
 
-![photo_12_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/0a7a5e93-2297-47e7-9506-2d6e616da74c)
+![photo_12_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/d9791c1d-2e06-46eb-9207-9ae50a760743)
 
 <li>Экран продукта</li>
 
-![photo_5_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/9c6d15a9-43c7-4c46-bbd6-ca88d68d2c65) ![photo_6_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/a867b00a-9302-4f93-a2a5-9c308f617a82)
+![photo_6_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/cb26be9a-800d-4294-84eb-c09bfe73679d) ![photo_5_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/198dd0eb-b00f-4c7d-84cd-608162831100)
 
 <li>Корзина</li>
 
-![photo_1_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/124713a3-c5c0-42af-aa82-cb4c42455cb8)
+![photo_1_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/b6d88b30-8853-420a-a904-268f8fc63e20)
 
 <li>Поиск</li>
 
-![photo_4_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/530815fc-da36-4920-9e25-2485f0d477b1) ![photo_13_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/a6c6d267-9537-47da-b07c-233f9776f21a)
+![photo_4_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/fb09e6bb-6063-47a1-8641-d0407116a09e) ![photo_13_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/cb28d73a-632c-4c8a-aefc-084ad86109f9)
 
 <li>Фильтры</li>
 
-![photo_9_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/017ce526-956c-40fc-b149-52001e533ffd) ![photo_10_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/f4a34906-f3a4-4bbf-bae3-cbd5762e6a42)
+![photo_9_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/8f33a394-1cd1-43a5-8cd0-3271fb79b733) ![photo_10_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/4b4b6f8f-fca2-4102-bfa7-88eb82d585d5)
 
-![photo_11_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/9572c1ef-04f5-4765-bf42-2698f26f63dc)
+![photo_11_2023-05-19_23-15-01](https://github.com/Mazer11/Foodies/assets/86118013/3a6487a5-b6c7-484d-bff1-722c70cc1ee8)
+
