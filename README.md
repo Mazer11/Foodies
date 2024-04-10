@@ -1,6 +1,10 @@
 # Foodies
 Start: 14.05.2023 19:47 - Finish: 19.05 23: 09
 
+Explore my portfolio Android application showcasing my skills through a hypothetical Asian cuisine restaurant interface. With this app, users can simulate ordering food for delivery, demonstrating my proficiency in UI/UX design, front-end development, and app functionality. Experience the convenience and creativity of digital dining with this demonstration of my capabilities.
+
+This app was created around year ago, so my actual skills (veary) much butter.
+
 Stack:
  - Kotlin
  - Jetpack Compose
